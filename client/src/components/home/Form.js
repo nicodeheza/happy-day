@@ -2,6 +2,19 @@ import React, { useState } from 'react'
 
 export default function Form() {
    const [formType, setFormType]= useState('logIn');
+   const [brithFocus, setBirthFocus]= useState('text');
+   const [singupFilds, setSingupFilds]= useState({
+       email:'',
+       name:'',
+       birthday:'',
+       password:'',
+       confirm:''
+   });
+
+   const [loginFlids, setLoginFilds]= useState({
+       email:'',
+       password:''
+   });
 
     const formSwitch=()=>{
         if(formType ==='logIn'){
@@ -10,21 +23,65 @@ export default function Form() {
             setFormType('logIn');
         }
     }
-    let form;
+
+    const handelLogin=(e)=>{
+        e.preventDefault();
+        console.log(loginFlids);
+    }
+
+    const  [passwordValidate, setPasswordValidated]= useState(true);
+
+    const handelSingup=(e)=>{
+        e.preventDefault();
+        if(singupFilds.password === singupFilds.confirm){
+            setPasswordValidated(true);
+            let send={
+                email:singupFilds.email,
+                name:singupFilds.name,
+                birthday: singupFilds.birthday,
+                password: singupFilds.password
+            }
+            fetch('http://localhost:4000/api/singup',{
+                method:'POST',
+                body: JSON.stringify(send),
+                headers:{"Content-type": "application/json; charset=UTF-8"}
+            })
+            .then(res=> res.json())
+            .then(data=>console.log(data))
+            .catch(err => console.log(err));
+
+            console.log(singupFilds);
+
+        }else{
+            setPasswordValidated(false);
+        }
+
+    }
+
+      let form;
     if(formType === 'logIn'){
-        form= <form>
-            <input type="text" placeholder="Enter your Email" name="emial"/>
-            <input type="password" placeholder="Enter your Password" name="password"/>
-            <button>Log In</button>
+        form= <form onSubmit= {handelLogin}>
+            <input type="email" placeholder="Enter your Email" name="emial" value={loginFlids.email}
+         onChange={(e)=>setLoginFilds({...loginFlids, email:e.target.value })} required/>
+            <input type="password" placeholder="Enter your Password" name="password" value={loginFlids.password}
+         onChange={(e)=>setLoginFilds({...loginFlids, password:e.target.value })} required/>
+            <button type="submit" value="Submit">Log In</button>
             </form>;
     }else{
-        form= <form>
-        <input type="text" placeholder="Enter your Email" name="email"/>
-        <input type="text" placeholder="Enter your Name" name="name"/>
-        <input type="text" placeholder="Enter your Birthday" name="birthday"/>
-        <input type="password" placeholder="Enter your Password" name="password"/>
-        <input type="password" placeholder="Confirm Password" name="confim"/>
-        <button>Sing Up</button>
+        form= <form onSubmit={handelSingup}>
+        <input type="email" placeholder="Enter your Email" name="email" value={singupFilds.email}
+         onChange={(e)=>setSingupFilds({...singupFilds, email:e.target.value })} required/>
+        <input type="text" placeholder="Enter your Name" name="name" value={singupFilds.name}
+         onChange={(e)=>setSingupFilds({...singupFilds, name:e.target.value })} required/>
+        <input type={brithFocus} onFocus={()=>setBirthFocus('date')} onBlur={()=>setBirthFocus('text')} 
+        placeholder="Enter your Birthday" name="birthday" value={singupFilds.birthday}
+         onChange={(e)=>setSingupFilds({...singupFilds, birthday:e.target.value })} required/>
+        <input type="password" placeholder="Enter your Password" name="password" value={singupFilds.password}
+         onChange={(e)=>setSingupFilds({...singupFilds, password:e.target.value })} required/>
+        <input type="password" placeholder="Confirm Password" name="confim" value={singupFilds.confirm}
+         onChange={(e)=>setSingupFilds({...singupFilds, confirm:e.target.value })} required/>
+         {!passwordValidate ? (<p className="alert">Passwords don't match</p>) : (<p></p>)}
+        <button type="submit">Sing Up</button>
         </form>;
     }
 

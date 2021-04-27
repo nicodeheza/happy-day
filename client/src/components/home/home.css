@@ -140,4 +140,9 @@ footer{
     }
 }
 
+.alert{
+    font-size: 10px;
+    color: var(--red);
+}
+
 /* font-family: 'Fredoka One', cursive; */
