@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import {authContext} from '../../App'
 
 export default function Form() {
+    const setAuth= useContext(authContext);
    const [formType, setFormType]= useState('logIn');
+   const[message, setMessage]= useState('');
    const [brithFocus, setBirthFocus]= useState('text');
    const [singupFilds, setSingupFilds]= useState({
        email:'',
@@ -36,8 +39,20 @@ export default function Form() {
                 headers:{"Content-type": "application/json; charset=UTF-8"},
                 credentials: 'include'
             })
-            .then(res=> res.json())
-            .then(data=>console.log(data))
+            .then(res=> {
+                if(res.status === 401){
+                    setMessage('The email address or password is incorrect.');
+                }else{
+                   return res.json()
+                }
+            })
+            .then(data=>{ 
+                
+                if(data){
+                    console.log('data')
+                    setAuth(data.auth);
+                }
+            })
             .catch(err => console.log(err));
 
             console.log(send);
@@ -62,7 +77,12 @@ export default function Form() {
                 credentials: 'include'
             })
             .then(res=> res.json())
-            .then(data=>console.log(data))
+            .then(data=>{
+                setAuth(data.auth);
+                if(data.message){
+                    setMessage(data.message);
+                }
+                console.log(data)})
             .catch(err => console.log(err));
 
             console.log(singupFilds);
@@ -80,6 +100,7 @@ export default function Form() {
          onChange={(e)=>setLoginFilds({...loginFlids, email:e.target.value })} required/>
             <input type="password" placeholder="Enter your Password" name="password" value={loginFlids.password}
          onChange={(e)=>setLoginFilds({...loginFlids, password:e.target.value })} required/>
+         {message? (<p className="alert">{message}</p>) : (null)}
             <button type="submit" value="Submit">Log In</button>
             </form>;
     }else{
@@ -96,6 +117,7 @@ export default function Form() {
         <input type="password" placeholder="Confirm Password" name="confim" value={singupFilds.confirm}
          onChange={(e)=>setSingupFilds({...singupFilds, confirm:e.target.value })} required/>
          {!passwordValidate ? (<p className="alert">Passwords don't match</p>) : (<p></p>)}
+         {message? (<p className="alert">{message}</p>) : (null)}
         <button type="submit">Sing Up</button>
         </form>;
     }

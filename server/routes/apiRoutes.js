@@ -53,5 +53,15 @@ router.post('/login', passport.authenticate('local'), (req, res)=>{
 
 });
 
+router.get('/logout', checkAuthenticated, (req,res)=>{
+    req.logOut();
+    res.json({auth:false});
+
+    //la sesion no de borra de la base de datos (se modifica para marcar que estas logeado),
+    // cuando haces login devuelta  no crea otra entrada en db sino que vuelve a modificar la existente para 
+    //el usuario 
+});
+
+
 module.exports= router;
 

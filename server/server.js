@@ -5,8 +5,15 @@ const cors= require('cors');
 const session= require('express-session');
 const cookieParser= require('cookie-parser');
 const passport= require('passport');
+const MongoStore= require('connect-mongo');
 
 const apiRoutes= require('./routes/apiRoutes');
+
+const mongoose= require('mongoose');
+mongoose.connect(process.env.MONGO_URI,{useNewUrlParser: true, useUnifiedTopology: true});
+const db= mongoose.connection;
+db.on('error', err=> console.error(err));
+db.once('open', ()=>console.log("connected to Mongoose"));
 
 app.use(cors({
     origin: "http://localhost:3000", // <-- location of the react app were connecting to
@@ -19,6 +26,7 @@ app.use(
       secret: process.env.SECRET,
       resave: false,
       saveUninitialized: false,
+      store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
     })
   );
   //cuando cargue agregar mongostore al session 
@@ -27,14 +35,6 @@ app.use(cookieParser(process.env.SECRET)); //require ('crypto').randomBytes(64).
 require('./middlewares/passportConfig')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-const mongoose= require('mongoose');
-mongoose.connect(process.env.MONGO_URI,{useNewUrlParser: true, useUnifiedTopology: true});
-const db= mongoose.connection;
-db.on('error', err=> console.error(err));
-db.once('open', ()=>console.log("connected to Mongoose"));
-
 
 
 app.use('/api', apiRoutes);
