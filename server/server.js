@@ -17,15 +17,16 @@ app.use(express.urlencoded({extended: false}));
 app.use(
     session({
       secret: process.env.SECRET,
-      resave: true,
-      saveUninitialized: true,
+      resave: false,
+      saveUninitialized: false,
     })
   );
+  //cuando cargue agregar mongostore al session 
 app.use(cookieParser(process.env.SECRET)); //require ('crypto').randomBytes(64).toString('hex') en consola con node
+
+require('./middlewares/passportConfig')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-require('./middlewares/passportConfig')(passport);
-
 
 
 const mongoose= require('mongoose');
@@ -37,6 +38,7 @@ db.once('open', ()=>console.log("connected to Mongoose"));
 
 
 app.use('/api', apiRoutes);
+
 
 const PORT= process.env.PORT || 4000;
 app.listen(PORT,()=>console.log(`Server runing on port ${PORT}`));

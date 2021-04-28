@@ -26,7 +26,21 @@ export default function Form() {
 
     const handelLogin=(e)=>{
         e.preventDefault();
-        console.log(loginFlids);
+            let send={
+                email:loginFlids.email,
+                password: loginFlids.password
+            }
+            fetch('http://localhost:4000/api/login',{
+                method:'POST',
+                body: JSON.stringify(send),
+                headers:{"Content-type": "application/json; charset=UTF-8"},
+                credentials: 'include'
+            })
+            .then(res=> res.json())
+            .then(data=>console.log(data))
+            .catch(err => console.log(err));
+
+            console.log(send);
     }
 
     const  [passwordValidate, setPasswordValidated]= useState(true);
@@ -44,7 +58,8 @@ export default function Form() {
             fetch('http://localhost:4000/api/singup',{
                 method:'POST',
                 body: JSON.stringify(send),
-                headers:{"Content-type": "application/json; charset=UTF-8"}
+                headers:{"Content-type": "application/json; charset=UTF-8"},
+                credentials: 'include'
             })
             .then(res=> res.json())
             .then(data=>console.log(data))
