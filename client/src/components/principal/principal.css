@@ -1,0 +1,15 @@
+.tool-card{
+    position: fixed;
+    bottom: 0px;
+    text-align: center;
+}
+
+@media(min-width:900px){
+    .tool-card{
+        bottom: calc(45vh - 500px/2);
+        left: 0px;   
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+}

@@ -1,0 +1,126 @@
+.app-header{
+    position: fixed;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.app-header a{
+    text-decoration: none;
+    color: white;
+}
+
+.app-header img{
+    width: 80px;
+    margin:10px 5px 20px 5px;
+}
+
+.month-btn-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    overflow: auto;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+
+}
+
+::-webkit-scrollbar{
+    height: 7px;
+}
+
+::-webkit-scrollbar-track{
+    background-color: #c700f7;
+    border-radius: 10px;
+} 
+
+::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.month-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Fredoka One', cursive; 
+    border: white 2px solid;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.month-btn:hover{
+   border-color: purple;
+}
+
+
+@media(min-width:1000px){
+    .month-btn{
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+
+    .app-header img{
+        width: 100px;
+    }
+
+   
+    
+}
+@media(min-width:1200px){
+    .month-btn{
+        width: 70px;
+        height: 70px;
+        font-size: 20px;
+    }
+
+     .app-header img{
+        margin-right: 20px;
+    }
+}
+
+.JAN{
+    background-color: #216b8e;
+}
+.FEB{
+    background-color: #27a3a3;
+}
+.MAR{
+    background-color: #149e84;
+}
+.APR{
+    background-color: #00ae4d;
+}
+.MAY{
+    background-color: #69d503;
+}
+.JUN{
+    background-color: #d6df24;
+}
+.JUL{
+    background-color: #edc01c;
+}
+.AUG{
+    background-color: #faa818;
+}
+.SEP{
+    background-color: #f19616;
+}
+.OCT{
+    background-color: #fd6126;
+}
+.NOV{
+    background-color: #9458a9;
+}
+.DEC{
+    background-color: #6258a2;
+}

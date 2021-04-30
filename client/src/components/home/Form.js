@@ -49,7 +49,6 @@ export default function Form() {
             .then(data=>{ 
                 
                 if(data){
-                    console.log('data')
                     setAuth(data.auth);
                 }
             })
