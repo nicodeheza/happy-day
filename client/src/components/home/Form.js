@@ -98,7 +98,7 @@ export default function Form() {
             <input type="email" placeholder="Enter your Email" name="emial" value={loginFlids.email}
          onChange={(e)=>setLoginFilds({...loginFlids, email:e.target.value })} required/>
             <input type="password" placeholder="Enter your Password" name="password" value={loginFlids.password}
-         onChange={(e)=>setLoginFilds({...loginFlids, password:e.target.value })} required/>
+         onChange={(e)=>setLoginFilds({...loginFlids, password:e.target.value })} autoComplete="on" required/>
          {message? (<p className="alert">{message}</p>) : (null)}
             <button type="submit" value="Submit">Log In</button>
             </form>;

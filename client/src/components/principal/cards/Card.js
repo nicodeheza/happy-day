@@ -6,7 +6,7 @@ import Search from './Search';
 import Settings from './Settings';
 
 export default function Card({showCard, setShowCard}) {
-    const [on, setOn]= useState(true);
+    const [on, setOn]= useState(false);
     const [title, setTitle]= useState('');
     const [form, setForm]= useState(<Add/>);
 
