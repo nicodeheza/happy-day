@@ -42,7 +42,7 @@ export default function Card({showCard, setShowCard}) {
           switch(sc){
             case "add":
                   setTitle("Add Event");
-                  setForm(<Add/>);
+                  setForm(<Add />);
                   break;
 
             case "search":

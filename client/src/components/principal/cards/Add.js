@@ -1,41 +1,162 @@
-import React from "react";
+import React, { useState } from "react";
 import './cards.css';
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 export default function Add() {
 
+  const [formFields, setFormFields]= useState({
+    event:'birthday',
+    type:'',
+    day:'',
+    month:abrMonths[0],
+    year:'',
+    personName:'',
+    reminders:[{title:'The Same Day', date:''}]
+  });
+
+  const[reminder, setReminder]= useState({
+    timeBefore:'same-day',
+    numBefore:''
+  });
+
+  const addReminder=(e)=>{
+    e.preventDefault();
+
+    let newReminder={
+      title:'',
+      date:'',
+    }
+
+    switch (reminder.timeBefore) {
+      case 'same-day':
+        newReminder.title= 'The Same Day';
+        break;
+      case 'days-before':
+        newReminder.title= `${reminder.numBefore} Days Before`;
+        break;
+      case 'weeks-before':
+        newReminder.title= `${reminder.numBefore} Weeks Before`
+        break; 
+    
+      default:
+        break;
+    }
+
+    let remindersArry= formFields.reminders;
+    remindersArry.push(newReminder);
+
+    setFormFields({...formFields, reminders: remindersArry});
+
+   //console.log(formFields.reminders);
+  }
+
+  const removeReminder=(i)=>{
+    let remindersArry= formFields.reminders
+    remindersArry.splice(i, 1);
+
+    setFormFields({...formFields, reminders:remindersArry});
+    
+  }
+
+  const submit=(e)=>{
+    e.preventDefault();
+    let submitForm={
+      event:formFields.event,
+      type: formFields.type,
+      date: new Date(`${formFields.month} ${formFields.day} ${formFields.year === '' ? '9999' : formFields.year}`),
+      personName: formFields.personName,
+      reminders:[]
+    }
+
+    const submitReminders= formFields.reminders.map((ele)=>{
+      let eleR={title: ele.title};
+      if(ele.title === 'The Same Day'){
+        eleR.date= submitForm.date;
+      }else{
+        const dateSub= ele.title.split(' ',2);
+        let dateInMs= submitForm.date.getTime();
+        const oneDay=1000*60*60*24;
+        const oneWeek= oneDay * 7;
+        if(dateSub[1]==='Days'){
+          eleR.date= new Date(dateInMs - oneDay * dateSub[0]);
+        }else{
+          eleR.date= new Date(dateInMs - oneWeek * dateSub[0]);
+        }
+      }
+      return eleR;
+    });
+
+    submitForm ={...submitForm, reminders: submitReminders}
+
+    //console.log(submitForm);
+
+    fetch('http://localhost:4000/api/add',{
+                method:'POST',
+                body: JSON.stringify(submitForm),
+                headers:{"Content-type": "application/json; charset=UTF-8"},
+                credentials: 'include'
+            })
+            .then(res=> res.json())
+            .then(data=>{
+                console.log(data)
+              })
+            .catch(err => console.log(err));
+
+
+            setFormFields({
+              event:'birthday',
+              type:'',
+              day:'',
+              month:abrMonths[0],
+              year:'',
+              personName:'',
+              reminders:[{title:'The Same Day', date:''}]
+            });
+
+            console.log('submit')
+    
+  }
+
+
   return (
    
-      <form className="card-form">
+      <form className="card-form" onSubmit={(e)=>submit(e)}>
 
         <div className="grup">
           <div className="label">
             <label htmlFor="event">Event</label>
-            <select name="event" required>
+            <select name="event" onChange={(e)=>setFormFields({...formFields, event:e.target.value})} 
+            value={formFields.event} required>
               <option value="birthday">Birthday</option>
               <option value="anniversary">Anniversary</option>
             </select>
           </div>
 
-          <div className="label">
-            <label htmlFor="type">Type</label>
-            <input type="text" name="type" />
-          </div>
+          {formFields.event === 'anniversary' ?
+          ( <div className="label">
+          <label htmlFor="type">Type</label>
+          <input type="text" name="type"  onChange={(e)=>setFormFields({...formFields, type: e.target.value})}
+          value={formFields.type}/>
+        </div>) : (null)}
+         
 
         </div>
 
-        <div className="grup">
+        <div className="grup" >
             <div className="label">
               <label htmlFor="day">Day</label>
-              <input className="day" type="number" name="day" min="1" max="31" step="1"  required/>
+              <input className="day" type="number" name="day" min="1" max="31" step="1" 
+              onChange={(e)=>setFormFields({...formFields, day:e.target.value})} 
+              value={formFields.day} required/>
             </div>
             <div className="label">
               <label htmlFor="month">Month</label>
-              <select name="month" required>
+              <select name="month" onChange={(e)=>setFormFields({...formFields, month:e.target.value})} 
+              value={formFields.month} required>
                 {abrMonths.map((m, i) => {
                   return (
-                    <option key={i} value={m.toLowerCase()}>
+                    <option key={i} value={m}>
                       {m}
                     </option>
                   );
@@ -44,32 +165,43 @@ export default function Add() {
             </div>
             <div className="label">
               <label htmlFor="year">Year</label>
-              <input className="year" type="number"name="year" placeholder="any" pattern="[0-9]{4}"/>
+              <input className="year" type="number"name="year" placeholder="any" max="9999"
+              onChange={e=>setFormFields({...formFields, year:e.target.value})}
+              value={formFields.year}/>
             </div>
         </div>
 
         <div className="label">
             <label htmlFor="name">Name</label>
-            <input type="text" name="name" required/>
+            <input type="text" name="name" onChange={e=>setFormFields({...formFields, personName: e.target.value})} 
+            value={formFields.personName} required/>
         </div>
 
         <div className="grup">
             <div className="grup">
             <label htmlFor="time-before">Add Reminders</label>
-            <select name="time-before">
+            <select name="time-before" onChange={e=>setReminder({...reminder, timeBefore:e.target.value})} 
+            value={reminder.timeBefore} >
                 <option value="same-day">The Same Day</option>
                 <option value="days-before">Days Before</option>
                 <option value="weeks-before">Weeks Before</option>
-                <option value="months-before">Months Before</option>
             </select>
-            <input className="a-r-n" type="number" name="num-before" min="1" step="1" />
-            <button className="a-r-b">Add</button>
+            {reminder.timeBefore !== "same-day" ?
+            (<input className="a-r-n" type="number" name="num-before" min="1" step="1"
+            onChange={e=>setReminder({...reminder, numBefore: e.target.value})}
+            value={reminder.numBefore}/>) : (null)}
+            
+            <button className="a-r-b" onClick={(e)=>addReminder(e)}>Add</button>
             </div>
             <ul className="reminders">
-                <li>The Same Day <img src="img/drop.svg" alt="drop"></img> </li>
-                <li>1 Months Before <img src="img/drop.svg" alt="drop"></img> </li>
-                <li>3 Days Before <img src="img/drop.svg" alt="drop"></img> </li>
-                <li>1 Weeks Before <img src="img/drop.svg" alt="drop"></img> </li> 
+
+              {
+                formFields.reminders.map((ele,i)=>{
+                  return(
+                    <li key={i}>{ele.title} <img src="img/drop.svg" alt="drop" onClick={()=>removeReminder(i)} /></li>
+                  );
+                })
+              }
             </ul>
         </div>
                 <div className="card-form-submit">
