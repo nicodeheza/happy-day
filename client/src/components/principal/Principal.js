@@ -6,11 +6,13 @@ import './principal.css';
 import Calendar from './calendar/Calendar';
 
 
-
+export const updateCalendarContext= React.createContext();
 
 export default function Principal() {
     const [showCard, setShowCard]= useState('none');
+    const [updateCalendar, setUpdateCalendar]= useState(false);
     return (
+        <updateCalendarContext.Provider value={{updateCalendar, setUpdateCalendar}}>
         <div>
             <Header/>
 
@@ -23,5 +25,6 @@ export default function Principal() {
 
             <Calendar/>
         </div>
+        </updateCalendarContext.Provider>
     )
 }

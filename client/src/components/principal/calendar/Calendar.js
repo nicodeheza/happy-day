@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import "./calendar.css"
+import {updateCalendarContext} from '../Principal';
 
 const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July',
  'August', 'September', 'October', 'November', 'December'];
@@ -11,6 +12,7 @@ const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July'
 
 export default function Calendar() {
     const[calendarData , setCalendarData]= useState({});
+    const {updateCalendar, setUpdateCalendar}= useContext(updateCalendarContext);
 
     const fetchData=()=>{
 
@@ -32,6 +34,14 @@ export default function Calendar() {
     useEffect(()=>{
        fetchData();
     },[]);
+
+    useEffect(()=>{
+        if(updateCalendar){
+        fetchData();
+        setUpdateCalendar(false);
+        }
+     },[updateCalendar, setUpdateCalendar]);
+    
 
     const getAge=(date)=>{
         const ageInMs= Date.now() - new Date(date).getTime();

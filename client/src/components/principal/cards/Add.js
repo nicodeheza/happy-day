@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import './cards.css';
+import{updateCalendarContext} from '../Principal';
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 export default function Add() {
+
+  const { setUpdateCalendar}= useContext(updateCalendarContext);
 
   const [formFields, setFormFields]= useState({
     event:'birthday',
@@ -115,6 +118,7 @@ export default function Add() {
             });
 
             console.log('submit')
+            setUpdateCalendar(true);
     
   }
 
