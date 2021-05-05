@@ -7,6 +7,8 @@ const checkAuthenticated= require('../middlewares/auth');
 const Event= require('../models/Event');
 const Reminder = require('../models/Reminder');
 
+const mongoose= require('mongoose');
+
 
 router.get('/', checkAuthenticated, (req,res)=>{
     res.json({auth:true});
@@ -105,6 +107,38 @@ router.post('/add', checkAuthenticated, async (req,res)=>{
     } catch (error) {
         if(error)console.log(error);
     }
+});
+
+router.get('/events', async (req,res)=>{
+
+    try {
+        const event= await Event.find({user: req.user.id}).populate('reminders').exec();
+        let calendar={};
+        
+        event.forEach(ele=>{
+            const month= ele.date.getMonth() + 1;
+            const day= ele.date.getDate();
+        
+            if(!calendar[`${month}`]){
+                calendar[`${month}`]={};
+                calendar[`${month}`][`${day}`]= [ele];
+            }else{
+
+                if(calendar[`${month}`][`${day}`]){
+                    
+                    calendar[`${month}`][`${day}`].push(ele);
+                }else{
+                    calendar[`${month}`][`${day}`]= [ele];
+                }
+            }
+
+        });
+        res.json(calendar);
+
+    } catch (error) {
+        if(error) console.log(error);
+    }
+   
 });
 
 

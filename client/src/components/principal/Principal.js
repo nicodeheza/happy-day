@@ -3,6 +3,7 @@ import Card from './cards/Card';
 import Header from './header/Header';
 import Toolbar from './toolbar/Toolbar'
 import './principal.css';
+import Calendar from './calendar/Calendar';
 
 
 
@@ -20,6 +21,7 @@ export default function Principal() {
             <Toolbar setShowCard={setShowCard}/>
             </div>
 
+            <Calendar/>
         </div>
     )
 }
