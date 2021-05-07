@@ -106,6 +106,7 @@ router.post('/add', checkAuthenticated, async (req,res)=>{
         
     } catch (error) {
         if(error)console.log(error);
+        res.json({message:"Event Don't Added"});
     }
 });
 
@@ -192,6 +193,25 @@ router.put('/edit', checkAuthenticated, async (req, res)=>{
         res.json({error: "Event don't edited"})
     }
 
+});
+
+router.delete('/delete', checkAuthenticated, async (req, res)=>{
+    console.log(req.body);
+    try {
+        if(req.body.remindersId.length > 0){
+            await Reminder.deleteMany({ _id: req.body.remindersId});
+        }
+
+        await Event.findByIdAndRemove(req.body.eventId);
+
+        res.json({message:"Event Deleted"});
+
+
+    } catch (error) {
+        if(error)console.log(error);
+        res.json({message:"Event Don't Deleted"});
+    }
+    
 });
 
 

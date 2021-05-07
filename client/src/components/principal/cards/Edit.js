@@ -143,6 +143,36 @@ export default function Edit() {
     
   }
 
+  const deleteEvent=(e)=>{
+    e.preventDefault();
+    setMessage("");
+    //console.log('delete');
+    const eventToDelete={
+      eventId: edit._id,
+      remindersId:[]
+  }
+
+  edit.reminders.forEach(ele=>{
+    eventToDelete.remindersId.push(ele._id);
+  });
+
+  fetch('http://localhost:4000/api/delete',{
+    method:'DELETE',
+    body: JSON.stringify(eventToDelete),
+    headers:{"Content-type": "application/json; charset=UTF-8"},
+    credentials: 'include'
+  })
+  .then(res=> res.json())
+  .then(data=>{
+    console.log(data);
+    setMessage(data.message);
+    setUpdateCalendar(true);
+    
+    })
+  .catch(err => console.log(err));  
+  setShowCard('none');
+
+  } 
 
   return (
    
@@ -231,7 +261,7 @@ export default function Edit() {
         </div>
                 <div className="card-form-submit drop">
                     <button type="submit">Edit Event</button>
-                    <button className="btn-drop">
+                    <button className="btn-drop" onClick={(e)=> deleteEvent(e)}>
                     <svg className="btn-drop-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.18 13.92">
                       <defs></defs>
                       <title>drop</title>

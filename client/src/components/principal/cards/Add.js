@@ -6,7 +6,7 @@ const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct",
 
 export default function Add() {
 
-  const { setUpdateCalendar}= useContext(principalContext);
+  const { setUpdateCalendar, setMessage}= useContext(principalContext);
 
   const [formFields, setFormFields]= useState({
     event:'birthday',
@@ -64,6 +64,7 @@ export default function Add() {
 
   const submit=(e)=>{
     e.preventDefault();
+    setMessage("");
     let submitForm={
       event:formFields.event,
       type: formFields.type,
@@ -103,6 +104,8 @@ export default function Add() {
             .then(res=> res.json())
             .then(data=>{
                 console.log(data)
+                setMessage(data.message);
+                setUpdateCalendar(true);
               })
             .catch(err => console.log(err));
 
@@ -118,7 +121,7 @@ export default function Add() {
             });
 
             console.log('submit')
-            setUpdateCalendar(true);
+            
     
   }
 
