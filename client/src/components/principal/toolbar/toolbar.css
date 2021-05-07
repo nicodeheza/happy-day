@@ -16,12 +16,17 @@
     width: 100%;
     box-shadow: 0px -7px 8px rgba(0, 0, 0, .4);
    position: relative;
+   pointer-events: auto;
     
 }
 .toolbar-btn{
     margin: 0px;
     padding: 0px;
    background: none;
+}
+
+.toolbar-btn:hover{
+    background: none;
 }
 
 .toolbar-btn img{
