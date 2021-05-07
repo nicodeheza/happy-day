@@ -187,6 +187,20 @@
 button:active{
     background: rgb(69, 0, 129);
 }
+.drop{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.btn-drop{
+    padding: 5px 25px;
+    margin-left: 10px;
+}
+.btn-drop-img{
+    fill: var(--yelow);
+    width: 20px;
+}
 
 
 @media(min-width:600px ){

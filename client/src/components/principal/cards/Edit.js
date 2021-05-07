@@ -1,22 +1,35 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import './cards.css';
 import{principalContext} from '../Principal';
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-export default function Add() {
+export default function Edit() {
 
-  const { setUpdateCalendar}= useContext(principalContext);
+  const {setUpdateCalendar, edit, showCard, setShowCard, setMessage}= useContext(principalContext);
 
   const [formFields, setFormFields]= useState({
-    event:'birthday',
-    type:'',
-    day:'',
-    month:abrMonths[0],
-    year:'',
-    personName:'',
-    reminders:[{title:'The Same Day', date:''}]
+    event:edit.type,
+    type: edit.AnniversaryType,
+    day: new Date(edit.date).getDate(),
+    month:abrMonths[new Date(edit.date).getMonth()],
+    year: new Date(edit.date).getFullYear() > 9000 ? '' :  new Date(edit.date).getFullYear(),
+    personName:edit.personName,
+    reminders:edit.reminders
   });
+  
+  useEffect(()=>{
+      setFormFields({
+        event:edit.type,
+        type: edit.AnniversaryType,
+        day: new Date(edit.date).getDate(),
+        month:abrMonths[new Date(edit.date).getMonth()],
+        year: new Date(edit.date).getFullYear() > 9000 ? '' :  new Date(edit.date).getFullYear(),
+        personName:edit.personName,
+        reminders:edit.reminders
+      });
+      //console.log(edit);
+  },[edit,showCard]);
 
   const[reminder, setReminder]= useState({
     timeBefore:'same-day',
@@ -27,26 +40,26 @@ export default function Add() {
     e.preventDefault();
 
     let newReminder={
-      title:'',
+      name:'',
       date:'',
     }
 
     switch (reminder.timeBefore) {
       case 'same-day':
-        newReminder.title= 'The Same Day';
+        newReminder.name= 'The Same Day';
         break;
       case 'days-before':
-        newReminder.title= `${reminder.numBefore} Days Before`;
+        newReminder.name= `${reminder.numBefore} Days Before`;
         break;
       case 'weeks-before':
-        newReminder.title= `${reminder.numBefore} Weeks Before`
+        newReminder.name= `${reminder.numBefore} Weeks Before`
         break; 
     
       default:
         break;
     }
 
-    let remindersArry= formFields.reminders;
+    let remindersArry= [...formFields.reminders];
     remindersArry.push(newReminder);
 
     setFormFields({...formFields, reminders: remindersArry});
@@ -55,36 +68,51 @@ export default function Add() {
   }
 
   const removeReminder=(i)=>{
-    let remindersArry= formFields.reminders
-    remindersArry.splice(i, 1);
-
-    setFormFields({...formFields, reminders:remindersArry});
-    
+    let remindersArry= [...formFields.reminders];
+    let ele= remindersArry.splice(i, 1);
+    if(formFields.removeReminders){
+      let rr=formFields.removeReminders;
+      rr.push(ele[0]._id);
+      setFormFields({...formFields, reminders:remindersArry, removeReminders: rr});
+    }else{
+      setFormFields({...formFields, reminders:remindersArry, removeReminders: [ele[0]._id]});
+    }
+    //console.log(formFields);
   }
 
   const submit=(e)=>{
     e.preventDefault();
+     setMessage("");
     let submitForm={
       event:formFields.event,
-      type: formFields.type,
+      type: formFields.event === "birthday"? '' : formFields.type,
       date: new Date(`${formFields.month} ${formFields.day} ${formFields.year === '' ? '9999' : formFields.year}`),
       personName: formFields.personName,
-      reminders:[]
+      reminders:[],
+      removeReminders: formFields.removeReminders ? formFields.removeReminders : [],
+      _id: edit._id
     }
 
     const submitReminders= formFields.reminders.map((ele)=>{
-      let eleR={title: ele.title};
-      if(ele.title === 'The Same Day'){
-        eleR.date= submitForm.date;
-      }else{
-        const dateSub= ele.title.split(' ',2);
-        let dateInMs= submitForm.date.getTime();
-        const oneDay=1000*60*60*24;
-        const oneWeek= oneDay * 7;
-        if(dateSub[1]==='Days'){
-          eleR.date= new Date(dateInMs - oneDay * dateSub[0]);
+  
+      let eleR={name: ele.name,
+        event: edit._id,
+        date: ele.date ? ele.date : null,
+        _id: ele._id ? ele._id : null
+      };
+      if(! eleR.date){
+        if(ele.name === 'The Same Day'){
+          eleR.date= submitForm.date;
         }else{
-          eleR.date= new Date(dateInMs - oneWeek * dateSub[0]);
+          const dateSub= ele.name.split(' ',2);
+          let dateInMs= submitForm.date.getTime();
+          const oneDay=1000*60*60*24;
+          const oneWeek= oneDay * 7;
+          if(dateSub[1]==='Days'){
+            eleR.date= new Date(dateInMs - oneDay * dateSub[0]);
+          }else{
+            eleR.date= new Date(dateInMs - oneWeek * dateSub[0]);
+          }
         }
       }
       return eleR;
@@ -94,31 +122,24 @@ export default function Add() {
 
     //console.log(submitForm);
 
-    fetch('http://localhost:4000/api/add',{
-                method:'POST',
+    fetch('http://localhost:4000/api/edit',{
+                method:'PUT',
                 body: JSON.stringify(submitForm),
                 headers:{"Content-type": "application/json; charset=UTF-8"},
                 credentials: 'include'
             })
             .then(res=> res.json())
             .then(data=>{
-                console.log(data)
+                console.log(data);
+                setMessage(data.message);
+                if(data.message ==="Event Edited"){
+                  setUpdateCalendar(true);
+                }
               })
             .catch(err => console.log(err));
 
-
-            setFormFields({
-              event:'birthday',
-              type:'',
-              day:'',
-              month:abrMonths[0],
-              year:'',
-              personName:'',
-              reminders:[{title:'The Same Day', date:''}]
-            });
-
-            console.log('submit')
-            setUpdateCalendar(true);
+            setShowCard('none');
+            console.log('submit');
     
   }
 
@@ -202,14 +223,23 @@ export default function Add() {
               {
                 formFields.reminders.map((ele,i)=>{
                   return(
-                    <li key={i}>{ele.title} <img src="img/drop.svg" alt="drop" onClick={()=>removeReminder(i)} /></li>
+                    <li key={i}>{ele.name} <img src="img/drop.svg" alt="drop" onClick={()=>removeReminder(i)} /></li>
                   );
                 })
               }
             </ul>
         </div>
-                <div className="card-form-submit">
-                    <button type="submit">Add Event</button>
+                <div className="card-form-submit drop">
+                    <button type="submit">Edit Event</button>
+                    <button className="btn-drop">
+                    <svg className="btn-drop-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.18 13.92">
+                      <defs></defs>
+                      <title>drop</title>
+                      <g id="Layer_2" data-name="Layer 2"><g id="Layer_2-2" data-name="Layer 2">
+                        <path className="cls-1" d="M.87,12.61a1.31,1.31,0,0,0,1.3,1.31H10a1.31,1.31,0,0,0,1.31-1.31h0V3.48H.87Zm7.39-7a.44.44,0,0,1,.44-.43.43.43,0,0,1,.43.43v6.09a.44.44,0,0,1-.43.44.44.44,0,0,1-.44-.44Zm-2.61,0a.44.44,0,0,1,.44-.43.43.43,0,0,1,.43.43v6.09a.44.44,0,0,1-.43.44.44.44,0,0,1-.44-.44ZM3,5.65a.44.44,0,0,1,.44-.43.43.43,0,0,1,.43.43v6.09a.44.44,0,0,1-.43.44A.44.44,0,0,1,3,11.74ZM11.74.87H8.48L8.23.36A.66.66,0,0,0,7.64,0H4.53A.66.66,0,0,0,4,.36L3.7.87H.43A.43.43,0,0,0,0,1.3v.87a.44.44,0,0,0,.43.44H11.74a.44.44,0,0,0,.44-.44V1.3A.44.44,0,0,0,11.74.87Z"/>
+                        </g></g>
+                      </svg>
+                    </button>
                 </div>
       </form>
   );

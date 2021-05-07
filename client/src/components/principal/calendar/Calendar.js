@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import "./calendar.css"
-import {updateCalendarContext} from '../Principal';
+import {principalContext} from '../Principal';
 
 const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July',
  'August', 'September', 'October', 'November', 'December'];
 
  const monthColors=['#216b8e', '#27a3a3','#149e84', '#00ae4d', '#69d503', '#d6df24', '#edc01c', '#faa818',
   '#f19616', '#fd6126', '#9458a9', '#6258a2'];
+  let lastId;
 
 
-
-export default function Calendar() {
+export default function Calendar({setShowCard, showCard}) {
     const[calendarData , setCalendarData]= useState({});
-    const {updateCalendar, setUpdateCalendar}= useContext(updateCalendarContext);
+    const {updateCalendar, setUpdateCalendar, setEdit}= useContext(principalContext);
 
     const fetchData=()=>{
 
@@ -53,6 +53,27 @@ export default function Calendar() {
         }
     }
 
+
+    const eventEdit=(id, event)=>{
+        //ele.className="event-container selected"
+        if(lastId){
+            lastId.style.backgroundColor = "transparent";
+        }
+       const ele= document.getElementById(id);
+       ele.style.backgroundColor = "white";
+       lastId= document.getElementById(id);
+
+       setShowCard('edit');
+       setEdit(event);
+
+    }
+    useEffect(()=>{
+        if(showCard === "none" && lastId){
+            lastId.style.backgroundColor = "transparent";
+           }
+    },[showCard])
+
+
     return (
         <div className="calendar">
 
@@ -75,7 +96,7 @@ export default function Calendar() {
                                         {
                                             calendarData[month][day].map((event, k)=>{
                                                 return(
-                                                    <div className="event-container" key={k}>
+                                                    <div className="event-container" id={`event-${month}-${day}-${k}`} key={k} onClick={()=> eventEdit(`event-${month}-${day}-${k}`, event)}>
                                                         <p>{`${event.personName} ${event.AnniversaryType} ${event.type} ${getAge(event.date)}`}</p>
                                                     </div>
                                                 )

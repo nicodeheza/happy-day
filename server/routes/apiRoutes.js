@@ -109,7 +109,7 @@ router.post('/add', checkAuthenticated, async (req,res)=>{
     }
 });
 
-router.get('/events', async (req,res)=>{
+router.get('/events',checkAuthenticated, async (req,res)=>{
 
     try {
         const event= await Event.find({user: req.user.id}).populate('reminders').exec();
@@ -139,6 +139,59 @@ router.get('/events', async (req,res)=>{
         if(error) console.log(error);
     }
    
+});
+
+router.put('/edit', checkAuthenticated, async (req, res)=>{
+
+    let editEvent={
+        type: req.body.event,
+        AnniversaryType: req.body.type,
+        personName: req.body.personName,
+        date: req.body.date,
+        reminders: req.body.reminders,
+        user: req.user.id
+    }
+    try {
+
+        if(req.body.removeReminders.length > 0){
+            await Reminder.deleteMany({_id: req.body.removeReminders});
+        }
+        
+        let toSave= [];
+        let remindersUpdated=[];
+        editEvent.reminders.forEach(async (ele)=>{
+                if(!ele._id){
+                    const newReminder={
+                        name:ele.name,
+                        date:ele.date,
+                        event:ele.event
+                    };
+                
+                    toSave.push(newReminder)
+                }else{
+                    remindersUpdated.push(ele._id);
+                }
+        });
+
+        if(toSave.length > 0){
+            
+            const remindersAdded= await Reminder.create(toSave);
+            remindersAdded.forEach(ele=>{
+                remindersUpdated.push(ele._id);
+            });
+        }
+
+        editEvent= {...editEvent, reminders: remindersUpdated};
+
+        await Event.findByIdAndUpdate(req.body._id, editEvent);
+
+        res.json({message: 'Event Edited'});
+        
+    } catch (error) {
+        if(error)console.log(error);
+        res.json({error: "Event don't edited"})
+    }
+
 });
 
 
