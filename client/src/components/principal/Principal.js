@@ -13,6 +13,7 @@ export default function Principal() {
     const [updateCalendar, setUpdateCalendar]= useState(false);
     const [edit, setEdit]= useState({});
     const [message, setMessage]= useState("");
+    const [searchFilters, setSearchFilters]=useState({});
     return (
         <principalContext.Provider value={{
          updateCalendar,
@@ -21,7 +22,9 @@ export default function Principal() {
          setEdit,
          showCard,
          setShowCard,
-         setMessage
+         setMessage,
+         setSearchFilters,
+         searchFilters
          }}>
         <div>
             <Header/>

@@ -20,7 +20,6 @@ export default function Card({showCard, setShowCard, edit}) {
         setOn((prevOn)=> !prevOn);
 
         if(matrix === 'none' && showCard !== 'none'){
-            console.log("ol");
             setOn(false);
             setTimeout(()=>{
                 switchForm(showCard);

@@ -196,7 +196,7 @@ router.put('/edit', checkAuthenticated, async (req, res)=>{
 });
 
 router.delete('/delete', checkAuthenticated, async (req, res)=>{
-    console.log(req.body);
+
     try {
         if(req.body.remindersId.length > 0){
             await Reminder.deleteMany({ _id: req.body.remindersId});

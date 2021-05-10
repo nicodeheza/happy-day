@@ -12,7 +12,8 @@ const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July'
 
 export default function Calendar({setShowCard, showCard}) {
     const[calendarData , setCalendarData]= useState({});
-    const {updateCalendar, setUpdateCalendar, setEdit}= useContext(principalContext);
+    const {updateCalendar, setUpdateCalendar, setEdit, searchFilters}= useContext(principalContext);
+    const [searchResults, setSearchResults]= useState({});
 
     const fetchData=()=>{
 
@@ -41,6 +42,115 @@ export default function Calendar({setShowCard, showCard}) {
         setUpdateCalendar(false);
         }
      },[updateCalendar, setUpdateCalendar]);
+
+    useEffect(()=>{
+        
+        console.log(searchFilters);
+        let filterData={};
+        let fromMonth;
+        let fromDay;
+        let toMonth;
+        let toDay;
+
+        if(searchFilters.from){
+            const from= searchFilters.from.split('/');
+             fromMonth= parseInt(from[0]);
+             fromDay= parseInt(from[1]);
+        }else{
+            fromMonth= 0;
+            fromDay= 0;
+        }
+        if(searchFilters.to){
+            const to= searchFilters.to.split('/');
+             toMonth= parseInt(to[0]);
+             toDay= parseInt(to[1]);
+        }else{
+            toMonth= 99;
+            toDay= 99;
+        }
+
+        let i=0;
+        let lastMonth;
+        for(const month in calendarData){
+            if(month >= fromMonth && month <= toMonth){
+                i++;
+                lastMonth=month;
+
+                if(i===1){
+                    filterData[month]= {};
+                    for(const day in calendarData[month]){
+
+                        if(day >= fromDay){
+                            filterData[month][day]= [...calendarData[month][day]];
+                        }
+                    }
+                }else{
+                    filterData[month]={...calendarData[month]};
+                    
+                }
+                
+
+            }
+
+        }
+
+        for( const day in filterData[lastMonth]){
+            if(day > toDay){
+                delete filterData[lastMonth][day];
+            }
+        }
+
+        if(searchFilters.name){
+        for(const month in filterData){
+            for(const day in filterData[month]){
+                 //console.log( filterData);
+               const nameFilter= filterData[month][day].filter(data=>{
+                   let regExp= new RegExp(searchFilters.name.toLowerCase(), 'ig');
+                   return regExp.test(data.personName);
+                });
+                if(nameFilter.length === 0){
+                   delete filterData[month][day];
+                }else{
+                    filterData[month][day]= nameFilter;
+                }
+            }
+
+            if(Object.keys(filterData[month]).length === 0){
+                delete filterData[month];
+            }
+        }
+     }   
+
+     if(searchFilters.type !== "any" && searchFilters.type){
+
+        for(const month in filterData){
+            for(const day in filterData[month]){
+               const typeFilter= filterData[month][day].filter(data=>{
+                  if(data.type === searchFilters.type){
+                      return true;
+                  }else{
+                      return false;
+                  }
+                });
+                if(typeFilter.length === 0){
+                   delete filterData[month][day];
+                }else{
+                    filterData[month][day]= typeFilter;
+                }
+            }
+
+            if(Object.keys(filterData[month]).length === 0){
+                delete filterData[month];
+            }
+        }
+
+     }
+
+
+        console.log(filterData);
+        setSearchResults(filterData);
+
+    },[searchFilters, calendarData]);
     
 
     const getAge=(date)=>{
@@ -79,7 +189,7 @@ export default function Calendar({setShowCard, showCard}) {
 
            {
                calendarData ?
-               Object.keys(calendarData).map((month, i)=>{
+               Object.keys(searchResults? searchResults : calendarData).map((month, i)=>{
                    return(
                     <div className="month-container" id={"month"+month} key={i}>
                         <div className="month-header" style={{backgroundColor: monthColors[month-1]}}>
@@ -87,14 +197,14 @@ export default function Calendar({setShowCard, showCard}) {
                         </div>
 
                         {
-                            Object.keys(calendarData[month]).map((day, j)=>{
+                            Object.keys(searchResults? searchResults[month] : calendarData[month]).map((day, j)=>{
                                 return(
                                 <div key={j}>
                                 <div className="day-constainer" >
                                     <h2 style={{color: monthColors[month-1]}}>{day}</h2>
                                     <div className="events-container">
                                         {
-                                            calendarData[month][day].map((event, k)=>{
+                                            (searchResults? searchResults[month][day] : calendarData[month][day]).map((event, k)=>{
                                                 return(
                                                     <div className="event-container" id={`event-${month}-${day}-${k}`} key={k} onClick={()=> eventEdit(`event-${month}-${day}-${k}`, event)}>
                                                         <p>{`${event.personName} ${event.AnniversaryType} ${event.type} ${getAge(event.date)}`}</p>
