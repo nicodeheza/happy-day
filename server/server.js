@@ -44,3 +44,11 @@ app.use('/api', apiRoutes);
 
 const PORT= process.env.PORT || 4000;
 app.listen(PORT,()=>console.log(`Server runing on port ${PORT}`));
+
+//send notifications  
+
+ const sendNoti= require('./notifications/sendNotifiactions');
+ const schedule = require('node-schedule'); 
+
+ schedule.scheduleJob('47 12 * * *', ()=> sendNoti());
+ //sendNoti();
