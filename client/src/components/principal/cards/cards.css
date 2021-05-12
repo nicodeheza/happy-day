@@ -123,10 +123,11 @@
     width: 40px;
     height: 15px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-start; 
     align-items: center;
     cursor: pointer;
 }
+
 
 .switch-btn-int{
     width: 20px;
@@ -134,7 +135,13 @@
     border-radius: 20px;
     background: rgb(92,0,170);
     background: linear-gradient(0deg, rgba(92,0,170,1) 25%, rgba(255,21,236,1) 100%);
+    transition: 0.5s;
 }
+
+.eOff{
+    transform: translateX(100%);
+}
+
 
 .switch-btn-container p{
     color: #b9b9b9;

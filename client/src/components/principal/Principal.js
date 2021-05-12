@@ -14,6 +14,28 @@ export default function Principal() {
     const [edit, setEdit]= useState({});
     const [message, setMessage]= useState("");
     const [searchFilters, setSearchFilters]=useState({});
+
+    const [emailNotification, setEmailNotification]= useState(true);
+    const [firstFetch, setFirstFetch]= useState(true);
+  
+    useEffect(()=>{
+      if(firstFetch){
+      fetch('http://localhost:4000/api/emailNotification',{
+          method:'GET',
+          headers:{"Content-type": "application/json; charset=UTF-8"},
+          credentials: 'include'
+      })
+      .then(res=> res.json())
+      .then(data=>{
+        setEmailNotification(data.mailNotification);
+        setFirstFetch(false);
+        console.log(data);
+      })
+      .catch(err => console.log(err));
+    }
+  
+    }, [firstFetch]);
+
     return (
         <principalContext.Provider value={{
          updateCalendar,
@@ -24,7 +46,9 @@ export default function Principal() {
          setShowCard,
          setMessage,
          setSearchFilters,
-         searchFilters
+         searchFilters,
+         emailNotification,
+         setEmailNotification
          }}>
         <div>
             <Header/>

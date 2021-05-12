@@ -160,19 +160,38 @@ router.put('/edit', checkAuthenticated, async (req, res)=>{
         
         let toSave= [];
         let remindersUpdated=[];
-        editEvent.reminders.forEach(async (ele)=>{
-                if(!ele._id){
-                    const newReminder={
-                        name:ele.name,
-                        date:ele.date,
-                        event:ele.event
-                    };
-                
-                    toSave.push(newReminder)
-                }else{
-                    remindersUpdated.push(ele._id);
+  
+        for(let i=0; i<editEvent.reminders.length; i++){
+            let ele= editEvent.reminders[i];
+            if(!ele._id){
+                const newReminder={
+                    name:ele.name,
+                    date:ele.date,
+                    event:ele.event
+                };       
+                toSave.push(newReminder);
+
+            }else{
+                if(ele.name === 'The Same Day'){
+                    ele.date= editEvent.date;
+                  }else{
+                    const dateSub= ele.name.split(' ',2);
+                    let dateInMs= editEvent.date.getTime();
+                    const oneDay=1000*60*60*24;
+                    const oneWeek= oneDay * 7;
+                    if(dateSub[1]==='Days'){
+                      ele.date= new Date(dateInMs - oneDay * dateSub[0]);
+                    }else{
+                      ele.date= new Date(dateInMs - oneWeek * dateSub[0]);
+                    }
+                  }
+
+                  await Reminder.findByIdAndUpdate(ele._id, {date: ele.date});
+                  remindersUpdated.push(ele._id);
                 }
-        });
+            }
+
+        
 
         if(toSave.length > 0){
             
@@ -193,6 +212,8 @@ router.put('/edit', checkAuthenticated, async (req, res)=>{
         res.json({error: "Event don't edited"})
     }
 
+
+
 });
 
 router.delete('/delete', checkAuthenticated, async (req, res)=>{
@@ -212,6 +233,28 @@ router.delete('/delete', checkAuthenticated, async (req, res)=>{
         res.json({message:"Event Don't Deleted"});
     }
     
+});
+
+router.get('/emailNotification', checkAuthenticated, async (req,res)=>{
+    try {
+        const user= await User.findById(req.user.id);
+        res.json({mailNotification: user.mailNotification});
+    } catch (error) {
+        if(error)console.log(error);
+        res.json({error: "can't get mailNotification"});
+    }
+});
+
+router.put('/emailNotification', checkAuthenticated, async (req,res)=>{
+    try {
+        const user= await User.findById(req.user.id);
+        user.mailNotification= ! user.mailNotification;
+        const UpdateUser= await user.save()
+        res.json({mailNotification: UpdateUser.mailNotification});
+    } catch (error) {
+        if(error)console.log(error);
+        res.json({error: "can't update mailNotification"});
+    }
 });
 
 

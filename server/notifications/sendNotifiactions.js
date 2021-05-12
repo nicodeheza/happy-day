@@ -7,8 +7,15 @@ const Event= require('../models/Event');
 
 function capitalize(str){
     if(!str) return '';
-    str.toLowerCase();
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    let arr= str.split(' ');
+    let rArr =[];
+    for(let i= 0; i< arr.length; i++){
+        let string= arr[i];
+        string.toLowerCase();
+        rArr.push(string.charAt(0).toUpperCase() + string.slice(1));
+    }
+    
+    return rArr.join(' ');
 } 
 
 
@@ -52,11 +59,11 @@ module.exports = async()=>{
             let eage= eYear ? `(${Math.floor((toDay.getTime() - eventDate.getTime()) / (1000*60*60*24*365))} years)` : "";
             let eventData= `${honore}'s ${event.AnniversaryType} ${event.type}: ${eDate} ${eage}`;
 
-            // console.log(`
-            // {subject: ${subject}
-            // body: ${body}
-            // data: ${eventData}}
-            // `);
+            console.log(`
+            {subject: ${subject}
+            body: ${body}
+            data: ${eventData}}
+            `);
 
             if(event.user.mailNotification){
 
