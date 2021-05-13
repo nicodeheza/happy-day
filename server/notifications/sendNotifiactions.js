@@ -3,6 +3,7 @@ const transporter= require('./nodemailer-transporter');
 const Reminder= require('../models/Reminder');
 const User= require('../models/User');
 const Event= require('../models/Event');
+const webpush= require('./webpush');
 
 
 function capitalize(str){
@@ -59,11 +60,11 @@ module.exports = async()=>{
             let eage= eYear ? `(${Math.floor((toDay.getTime() - eventDate.getTime()) / (1000*60*60*24*365))} years)` : "";
             let eventData= `${honore}'s ${event.AnniversaryType} ${event.type}: ${eDate} ${eage}`;
 
-            console.log(`
-            {subject: ${subject}
-            body: ${body}
-            data: ${eventData}}
-            `);
+            // console.log(`
+            // {subject: ${subject}
+            // body: ${body}
+            // data: ${eventData}}
+            // `);
 
             if(event.user.mailNotification){
 
@@ -117,6 +118,17 @@ module.exports = async()=>{
         
           console.log("Message sent: %s", mail.messageId); 
           }
+
+        if(event.user.browserNotification){
+            const payload=JSON.stringify({
+                title:subject,
+                text:`${body}
+${eventData}` 
+            });
+
+            await webpush.sendNotification(event.user.browserNotification, payload);
+            console.log("notification sended");
+        }
 
  }
         

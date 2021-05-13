@@ -257,6 +257,17 @@ router.put('/emailNotification', checkAuthenticated, async (req,res)=>{
     }
 });
 
+router.post('/noti-sub', checkAuthenticated, async (req, res)=>{
+    try {
+        const user= await User.findById(req.user.id);
+        user.browserNotification= req.body;
+        await user.save();
+        res.json({message: 'subscription added'});
+    } catch (error) {
+        if(error)console.log(error);
+    }
+});
+
 
 module.exports= router;
 

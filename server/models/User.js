@@ -6,7 +6,7 @@ const userSchema= new mongoose.Schema({
     birthday:{type: Date, required: true},
     password:{type:String, required: true},
     mailNotification:{ type: Boolean, default: true},
-    browserNotification:{ type:Boolean, default: false}
+    browserNotification: mongoose.Schema.Types.Mixed
 });
 
 module.exports= mongoose.model('User', userSchema);

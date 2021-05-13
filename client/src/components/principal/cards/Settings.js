@@ -1,9 +1,16 @@
 import React, { useContext } from "react";
 import {principalContext} from '../Principal';
+import {
+  isPushNotificationSupported,
+  registerServiceWorker,
+  askUserPermission,
+  createNotificationSubscription,
+  postSubscription
+} from '../../../push-notifications'
 
 export default function Settings() {
 
-  const{emailNotification, setEmailNotification} = useContext(principalContext);
+  const{emailNotification, setEmailNotification, setMessage} = useContext(principalContext);
 
   const emailNotificationSettings=()=>{
     setEmailNotification(prev=> !prev);
@@ -19,6 +26,32 @@ export default function Settings() {
       console.log(data);
     })
     .catch(err => console.log(err));
+  }
+
+  const activateBnotification= async ()=>{
+
+    try {
+      if(isPushNotificationSupported()){
+        registerServiceWorker();
+        const permission= await askUserPermission();
+        console.log(permission);
+        if(permission === 'granted'){
+          const subscription= await createNotificationSubscription();
+          const res= await postSubscription(subscription);
+          setMessage('Notifications Activated');
+          console.log(res)
+        }else{
+          setMessage("Something went wrong, check your browser's notification settings and try again");
+        }
+  
+      } else{
+        setMessage('Notifications are not supported by your browser');
+      } 
+      
+    } catch (error) {
+      if(error)console.log(error);
+    }
+
   }
 
 
@@ -37,7 +70,7 @@ export default function Settings() {
 
       <div className="label">
       <label htmlFor="browser">Browser Notifications</label>
-      <button className="a-r-b" style={{padding: "5px 10px"}}>Activate</button>
+      <button className="a-r-b" style={{padding: "5px 10px"}} onClick={()=>activateBnotification()}>Activate</button>
       </div>
 
     </div>
