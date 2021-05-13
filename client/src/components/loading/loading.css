@@ -1,0 +1,38 @@
+.loading-container{
+    background: rgb(255,21,236);
+    background: linear-gradient(0deg, rgba(255,21,236,1) 0%, rgba(92,0,170,1) 74%);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    color: white;
+}
+
+.loading-logo{
+    max-width: 300px;
+    width: minmax(200px, 300px);
+    margin: 0px 20px;
+
+}
+.wheel-container{
+    text-align: center;
+}
+
+.loading-wheel{
+    width: 150px;
+    transform-origin: center center;
+    animation: wheel .7s infinite linear;
+}
+
+
+
+@keyframes wheel {
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(365deg);}
+}
+
+.wheel-container p{
+    margin-top: 15px;
+    font-weight: bold;
+}

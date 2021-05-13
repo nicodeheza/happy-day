@@ -88,3 +88,41 @@
     border-radius: 10px;
     margin-top: 10px;
 } 
+
+.claendar-wheel{
+    fill: var(--purple); 
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 70px);
+}
+
+.any-container{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: -10;
+}
+.any{
+    text-align: center;
+    width: 90vw;
+}
+.any h2{
+    font-family: 'Fredoka One', cursive;
+    color:  var(--purple);
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+.any p{
+    color:  var(--purple);
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.any img{
+    width: 50px;
+}

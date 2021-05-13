@@ -14,9 +14,10 @@ export default function Calendar({setShowCard, showCard}) {
     const[calendarData , setCalendarData]= useState({});
     const {updateCalendar, setUpdateCalendar, setEdit, searchFilters}= useContext(principalContext);
     const [searchResults, setSearchResults]= useState({});
+    const [loadingData, setLoadingData]= useState(true);
 
     const fetchData=()=>{
-
+        //setLoadingData(true)
         fetch('http://localhost:4000/api/events',{
             method:'GET',
             headers:{"Content-type": "application/json; charset=UTF-8"},
@@ -27,6 +28,7 @@ export default function Calendar({setShowCard, showCard}) {
     
           console.log(data);
           setCalendarData(data);
+          setLoadingData(false);
           
         })
         .catch(err => console.log(err));
@@ -188,7 +190,7 @@ export default function Calendar({setShowCard, showCard}) {
         <div className="calendar">
 
            {
-               calendarData ?
+               Object.keys(calendarData).length > 0 && !loadingData ?
                Object.keys(searchResults? searchResults : calendarData).map((month, i)=>{
                    return(
                     <div className="month-container" id={"month"+month} key={i}>
@@ -225,7 +227,23 @@ export default function Calendar({setShowCard, showCard}) {
                         
                     </div>
                    )
-               }) : (null)
+               }) : loadingData  ? (<svg xmlns="http://www.w3.org/2000/svg" className="loading-wheel claendar-wheel" 
+               viewBox="0 0 117.49 124.88" width="100" height="100"><defs></defs>
+               <title>loading</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1">
+                <path 
+                 d="M78.84,18.33a49.61,49.61,0,0,0-28.75-2.12A50.63,50.63,0,0,0,24.57,30.68,51.5,51.5,0,0,0,11.19,57.34a52.14,
+                 52.14,0,0,0,3.75,30.08,53.12,53.12,0,0,0,20.17,23.31A54.11,54.11,0,0,0,65.32,119a55.21,55.21,0,0,0,50-35.61,
+                 1.12,1.12,0,0,1,1.45-.65,1.14,1.14,0,0,1,.67,1.4,58.76,58.76,0,0,1-19.55,28A59.79,59.79,0,0,1,65.63,124.7a60.64,
+                 60.64,0,0,1-34.29-7.6A61.34,61.34,0,0,1,6.71,91.36,62.19,62.19,0,0,1,.46,55.78,63.25,63.25,0,0,1,15.23,22.27,
+                 64.12,64.12,0,0,1,46.56,2.37a64.82,64.82,0,0,1,37.61.88l.08,0a8,8,0,0,1-5,15.2Z"/></g></g></svg>) 
+                 : (
+                     <div className="any-container">
+                     <div className="any">
+                     <h2>You don't have any event</h2>
+                     <p>add one pressing </p>
+                     <img src="img/add.svg" alt="add"/>
+                     </div>
+                    </div>)
              }
             
         </div>

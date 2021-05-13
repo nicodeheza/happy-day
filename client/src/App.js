@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Home from './components/home/Home';
+import Loading from './components/loading/Loading';
 import Principal from './components/principal/Principal';
 
 export const authContext= React.createContext();
 
 function App() {
-  const [auth, setAuth]= useState(false);
+  const [auth, setAuth]= useState(undefined);
 
   useEffect(()=>{
     fetch('http://localhost:4000/api',{
@@ -23,7 +24,10 @@ function App() {
 
   return (
     <authContext.Provider value={setAuth}>
-    {auth? 
+    
+    {auth === undefined ?
+    (<Loading/>) :
+    auth ? 
     (<Principal/>)
     :
     (<Home/>)
