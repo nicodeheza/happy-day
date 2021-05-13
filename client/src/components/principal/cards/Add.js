@@ -50,16 +50,13 @@ export default function Add() {
     remindersArry.push(newReminder);
 
     setFormFields({...formFields, reminders: remindersArry});
-
-   //console.log(formFields.reminders);
   }
 
   const removeReminder=(i)=>{
     let remindersArry= formFields.reminders
     remindersArry.splice(i, 1);
 
-    setFormFields({...formFields, reminders:remindersArry});
-    
+    setFormFields({...formFields, reminders:remindersArry}); 
   }
 
   const submit=(e)=>{
@@ -91,9 +88,7 @@ export default function Add() {
       return eleR;
     });
 
-    submitForm ={...submitForm, reminders: submitReminders}
-
-    //console.log(submitForm);
+    submitForm ={...submitForm, reminders: submitReminders};
 
     fetch('http://localhost:4000/api/add',{
                 method:'POST',
@@ -103,12 +98,11 @@ export default function Add() {
             })
             .then(res=> res.json())
             .then(data=>{
-                console.log(data)
+                //console.log('fetch add.js')
                 setMessage(data.message);
                 setUpdateCalendar(true);
               })
             .catch(err => console.log(err));
-
 
             setFormFields({
               event:'birthday',
@@ -119,10 +113,6 @@ export default function Add() {
               personName:'',
               reminders:[{title:'The Same Day', date:''}]
             });
-
-            console.log('submit')
-            
-    
   }
 
 

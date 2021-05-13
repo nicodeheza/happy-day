@@ -152,6 +152,7 @@ router.put('/edit', checkAuthenticated, async (req, res)=>{
         reminders: req.body.reminders,
         user: req.user.id
     }
+   
     try {
 
         if(req.body.removeReminders.length > 0){
@@ -176,7 +177,7 @@ router.put('/edit', checkAuthenticated, async (req, res)=>{
                     ele.date= editEvent.date;
                   }else{
                     const dateSub= ele.name.split(' ',2);
-                    let dateInMs= editEvent.date.getTime();
+                    let dateInMs= new Date(editEvent.date).getTime();
                     const oneDay=1000*60*60*24;
                     const oneWeek= oneDay * 7;
                     if(dateSub[1]==='Days'){

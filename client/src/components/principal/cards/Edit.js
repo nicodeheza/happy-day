@@ -18,6 +18,7 @@ export default function Edit() {
     reminders:edit.reminders
   });
   
+  //add info in fields
   useEffect(()=>{
       setFormFields({
         event:edit.type,
@@ -28,7 +29,6 @@ export default function Edit() {
         personName:edit.personName,
         reminders:edit.reminders
       });
-      //console.log(edit);
   },[edit,showCard]);
 
   const[reminder, setReminder]= useState({
@@ -63,8 +63,6 @@ export default function Edit() {
     remindersArry.push(newReminder);
 
     setFormFields({...formFields, reminders: remindersArry});
-
-   //console.log(formFields.reminders);
   }
 
   const removeReminder=(i)=>{
@@ -77,7 +75,6 @@ export default function Edit() {
     }else{
       setFormFields({...formFields, reminders:remindersArry, removeReminders: [ele[0]._id]});
     }
-    //console.log(formFields);
   }
 
   const submit=(e)=>{
@@ -118,9 +115,7 @@ export default function Edit() {
       return eleR;
     });
 
-    submitForm ={...submitForm, reminders: submitReminders}
-
-    //console.log(submitForm);
+    submitForm ={...submitForm, reminders: submitReminders};
 
     fetch('http://localhost:4000/api/edit',{
                 method:'PUT',
@@ -130,7 +125,7 @@ export default function Edit() {
             })
             .then(res=> res.json())
             .then(data=>{
-                console.log(data);
+                //console.log("fetch edit.js edit");
                 setMessage(data.message);
                 if(data.message ==="Event Edited"){
                   setUpdateCalendar(true);
@@ -139,8 +134,6 @@ export default function Edit() {
             .catch(err => console.log(err));
 
             setShowCard('none');
-            console.log('submit');
-    
   }
 
   const deleteEvent=(e)=>{
@@ -164,7 +157,7 @@ export default function Edit() {
   })
   .then(res=> res.json())
   .then(data=>{
-    console.log(data);
+    console.log("fetch edit.js delete");
     setMessage(data.message);
     setUpdateCalendar(true);
     

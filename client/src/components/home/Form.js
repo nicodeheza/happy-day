@@ -51,10 +51,10 @@ export default function Form() {
                 if(data){
                     setAuth(data.auth);
                 }
+                //console.log("fetch form.js log in");
             })
             .catch(err => console.log(err));
 
-            console.log(send);
     }
 
     const  [passwordValidate, setPasswordValidated]= useState(true);
@@ -81,10 +81,9 @@ export default function Form() {
                 if(data.message){
                     setMessage(data.message);
                 }
-                console.log(data)})
+                console.log("fetch form.js sing up");
+            })
             .catch(err => console.log(err));
-
-            console.log(singupFilds);
 
         }else{
             setPasswordValidated(false);

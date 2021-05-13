@@ -18,6 +18,7 @@ export default function Principal() {
     const [emailNotification, setEmailNotification]= useState(true);
     const [firstFetch, setFirstFetch]= useState(true);
   
+    //get email notification status
     useEffect(()=>{
       if(firstFetch){
       fetch('http://localhost:4000/api/emailNotification',{
@@ -29,7 +30,7 @@ export default function Principal() {
       .then(data=>{
         setEmailNotification(data.mailNotification);
         setFirstFetch(false);
-        console.log(data);
+        //console.log("fetch principal.js email notification");
       })
       .catch(err => console.log(err));
     }
@@ -68,7 +69,7 @@ export default function Principal() {
     )
 }
 
-
+//message component
 function Message({message}){
     const [style, setStyle]=useState({display: 'flex'});
     useEffect(()=>{

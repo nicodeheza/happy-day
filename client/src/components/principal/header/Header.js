@@ -5,6 +5,8 @@ const abrMonths=['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL','AUG', 'SEP', '
 
 export default function Header() {
     const [alertClass, setAlertClass]= useState('alert');
+
+    //handel month btns click
     const goToMonth=(month)=>{
 
             var elem = document.getElementById(`month${month}`);

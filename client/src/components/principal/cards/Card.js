@@ -6,16 +6,16 @@ import Help from './Help';
 import Search from './Search';
 import Settings from './Settings';
 
-export default function Card({showCard, setShowCard, edit}) {
+export default function Card({showCard, setShowCard}) {
     const [on, setOn]= useState(false);
     const [title, setTitle]= useState('');
     const [form, setForm]= useState(<Add/>);
 
+    //show cards and animation 
     useEffect(()=>{
         const add=document.getElementById('card');
         
           let matrix= window.getComputedStyle(add, null).transform;
-          //console.log (matrix);
         
         setOn((prevOn)=> !prevOn);
 

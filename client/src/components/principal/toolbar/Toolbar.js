@@ -15,7 +15,7 @@ export default function Toolbar({setShowCard}) {
         .then(res=> res.json())
         .then(data=>{
             setAuth(data.auth);
-            console.log(data);
+            //console.log("fetch toolbar.js logout");
          })
         .catch(err => console.log(err));
     }

@@ -50,5 +50,5 @@ app.listen(PORT,()=>console.log(`Server runing on port ${PORT}`));
  const sendNoti= require('./notifications/sendNotifiactions');
  const schedule = require('node-schedule'); 
 
- //schedule.scheduleJob('47 12 * * *', ()=> sendNoti());
+ schedule.scheduleJob('00 10 * * *', ()=> sendNoti());
  //sendNoti();

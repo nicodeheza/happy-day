@@ -45,7 +45,7 @@ module.exports = async()=>{
             }else{
                 const reminderName= reminder.name.split(" ");
                 const time= reminderName[1] === 'Days' && reminderName[0] === '1' ? 'Day' 
-                : eminderName[1] === 'Weeks' && reminderName[0] === '1' ?  'Week'
+                : reminderName[1] === 'Weeks' && reminderName[0] === '1' ?  'Week'
                 : reminderName[1] === 'Days' ? 'Days' : 'Weeks';
 
                 subject= `in ${reminderName[0]} ${time} is ${honore}'s ${event.AnniversaryType} ${event.type}`

@@ -26,7 +26,7 @@ export default function Calendar({setShowCard, showCard}) {
         .then(res=> res.json())
         .then(data=>{
     
-          console.log(data);
+          //console.log("fetch calendar.js ");
           setCalendarData(data);
           setLoadingData(false);
           
@@ -47,7 +47,7 @@ export default function Calendar({setShowCard, showCard}) {
 
     useEffect(()=>{
         
-        console.log(searchFilters);
+        //console.log(searchFilters);
         let filterData={};
         let fromMonth;
         let fromDay;
@@ -149,7 +149,7 @@ export default function Calendar({setShowCard, showCard}) {
      }
 
 
-        console.log(filterData);
+        //console.log(filterData);
         setSearchResults(filterData);
 
     },[searchFilters, calendarData]);

@@ -22,7 +22,6 @@ export default function Settings() {
     })
     .then(res=> res.json())
     .then(data=>{
-     // setEmailNotification(data.mailNotification);
       console.log(data);
     })
     .catch(err => console.log(err));
@@ -34,7 +33,7 @@ export default function Settings() {
       if(isPushNotificationSupported()){
         registerServiceWorker();
         const permission= await askUserPermission();
-        console.log(permission);
+      
         if(permission === 'granted'){
           const subscription= await createNotificationSubscription();
           const res= await postSubscription(subscription);
