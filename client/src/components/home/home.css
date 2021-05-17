@@ -140,9 +140,74 @@ footer{
     }
 }
 
-.alert{
+.alert-form{
     font-size: 10px;
     color: var(--red);
+    margin-bottom: 10px;
+}
+
+.recover-container{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.recover{
+    position: relative;
+    text-align: center;
+    background-color: var(--gay);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, .4), 0px -5px 10px rgba(0, 0, 0, .4);
+    min-width: 200px;
+    margin: 0px 10px;
+}
+.recover h3{
+    font-family: 'Fredoka One', cursive;
+    color:  #0ba9f7;
+    font-size: 25px;
+    font-weight: normal;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.recover form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.recover form input,
+button{
+    margin: 0px;
+}
+.recover form input{
+    width: 200px;
+    margin-right: 20px;
+}
+
+@media (max-width: 450px){
+    .recover form{
+        flex-direction: column;
+    }
+    .recover form input{
+        margin-bottom: 15px;
+    }
+}
+.recover img{
+    width: 10px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+.recover p{
+    color: var(--purple);
+    font-size: 10px;
+    margin-top: 20px;
 }
 
 /* font-family: 'Fredoka One', cursive; */

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Form from './Form';
 import './home.css';
+import Recover from './Recover';
 
 export default function Home() {
+    const [showRecover, setShowRecover]= useState(false);
     return (
         <div className="main-container">
+            {showRecover ? (<Recover setShowRecover={setShowRecover}/>) : (null)}
             <header style={{ backgroundImage: `url(/img/header.svg)`}}>
                 <img src="img/logo1.svg" alt="Happy Day"></img>
                 <h2>Birthdays and Anniversaries Reminder</h2>
@@ -26,7 +29,7 @@ export default function Home() {
             </div>
             </main>
             <footer  style={{ backgroundImage: `url(/img/footer.svg)`}}>
-            <p>Forgot Your Password? <span className="red">Recover it</span></p> 
+            <p>Forgot Your Password? <span className="red" onClick={()=>setShowRecover(true)} >Recover it</span></p> 
             </footer>
         </div>
     )

@@ -8,10 +8,12 @@ const passport= require('passport');
 const MongoStore= require('connect-mongo');
 
 const apiRoutes= require('./routes/apiRoutes');
+const recoverRoutes= require('./routes/recoverRoutes');
 
 const mongoose= require('mongoose');
 mongoose.set('useFindAndModify', false);
-mongoose.connect(process.env.MONGO_URI,{useNewUrlParser: true, useUnifiedTopology: true});
+const mongo_uri= process.env.NODE_ENV === "test" ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
+mongoose.connect(mongo_uri, {useNewUrlParser: true, useUnifiedTopology: true});
 const db= mongoose.connection;
 db.on('error', err=> console.error(err));
 db.once('open', ()=>console.log("connected to Mongoose"));
@@ -28,7 +30,7 @@ app.use(
       secret: process.env.SECRET,
       resave: false,
       saveUninitialized: false,
-      store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
+      store: MongoStore.create({ mongoUrl: mongo_uri })
     })
   );
   //cuando cargue agregar mongostore al session 
@@ -40,10 +42,15 @@ app.use(passport.session());
 
 
 app.use('/api', apiRoutes);
+app.use('/recover', recoverRoutes);
 
 
 const PORT= process.env.PORT || 4000;
 app.listen(PORT,()=>console.log(`Server runing on port ${PORT}`));
+
+if(process.env.NODE_ENV === "test"){
+  module.exports= app;
+}
 
 //send notifications  
 
@@ -52,3 +59,7 @@ app.listen(PORT,()=>console.log(`Server runing on port ${PORT}`));
 
  schedule.scheduleJob('00 10 * * *', ()=> sendNoti());
  //sendNoti();
+
+ console.log(process.env.NODE_ENV);
+
+ 

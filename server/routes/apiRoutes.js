@@ -15,7 +15,7 @@ router.get('/', checkAuthenticated, (req,res)=>{
 });
 
 router.post('/singup',async (req,res)=>{
-    //console.log(req.body);
+    
     try {
         const user= await User.findOne({email: req.body.email});
         if(user){
@@ -54,7 +54,7 @@ router.post('/singup',async (req,res)=>{
 
 router.post('/login', passport.authenticate('local'), (req, res)=>{
 
-    res.json({aunth:true});
+    res.json({auth:true});
 
 });
 

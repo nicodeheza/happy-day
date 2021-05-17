@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import {authContext} from '../../App'
 
 export default function Form() {
-    const setAuth= useContext(authContext);
+   const setAuth= useContext(authContext);
    const [formType, setFormType]= useState('logIn');
    const[message, setMessage]= useState('');
    const [brithFocus, setBirthFocus]= useState('text');
@@ -77,11 +77,13 @@ export default function Form() {
             })
             .then(res=> res.json())
             .then(data=>{
-                setAuth(data.auth);
+               
                 if(data.message){
                     setMessage(data.message);
+                }else{
+                    setAuth(data.auth);
                 }
-                console.log("fetch form.js sing up");
+                //console.log("fetch form.js sing up");
             })
             .catch(err => console.log(err));
 
@@ -98,7 +100,7 @@ export default function Form() {
          onChange={(e)=>setLoginFilds({...loginFlids, email:e.target.value })} required/>
             <input type="password" placeholder="Enter your Password" name="password" value={loginFlids.password}
          onChange={(e)=>setLoginFilds({...loginFlids, password:e.target.value })} autoComplete="on" required/>
-         {message? (<p className="alert">{message}</p>) : (null)}
+         {message ? (<p className="alert-form">{message}</p>) : (null)}
             <button type="submit" value="Submit">Log In</button>
             </form>;
     }else{
@@ -111,11 +113,11 @@ export default function Form() {
         placeholder="Enter your Birthday" name="birthday" value={singupFilds.birthday}
          onChange={(e)=>setSingupFilds({...singupFilds, birthday:e.target.value })} required/>
         <input type="password" placeholder="Enter your Password" name="password" value={singupFilds.password}
-         onChange={(e)=>setSingupFilds({...singupFilds, password:e.target.value })} required/>
+         onChange={(e)=>setSingupFilds({...singupFilds, password:e.target.value })} required autoComplete="off"/>
         <input type="password" placeholder="Confirm Password" name="confim" value={singupFilds.confirm}
-         onChange={(e)=>setSingupFilds({...singupFilds, confirm:e.target.value })} required/>
-         {!passwordValidate ? (<p className="alert">Passwords don't match</p>) : (<p></p>)}
-         {message? (<p className="alert">{message}</p>) : (null)}
+         onChange={(e)=>setSingupFilds({...singupFilds, confirm:e.target.value })} required autoComplete="off"/>
+         {!passwordValidate ? (<p className="alert-form">Passwords don't match</p>) : (<p></p>)}
+         {message? (<p className="alert-form">{message}</p>) : (null)}
         <button type="submit">Sing Up</button>
         </form>;
     }
