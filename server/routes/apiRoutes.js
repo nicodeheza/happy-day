@@ -100,10 +100,7 @@ router.post('/add', checkAuthenticated, async (req,res)=>{
         }
 
         res.json({message:'Event Added'});
-
-
-
-        
+ 
     } catch (error) {
         if(error)console.log(error);
         res.json({message:"Event Don't Added"});

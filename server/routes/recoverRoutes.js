@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express= require('express');
 const router= express.Router();
 const Recover= require('../models/Recover');
@@ -49,7 +50,10 @@ router.post('/', async(req,res)=>{
                 </html>
                 `
             });
+            if(process.env.NODE_ENV !== "test"){
             console.log("Message sent: %s", email.messageId); 
+            }
+            
             res.json({message:"Email sended"});
         }else{
             res.json({message:"Something get rong"});

@@ -1,4 +1,5 @@
 //const nodemailer= require('nodemailer');
+require('dotenv').config();
 const transporter= require('./nodemailer-transporter');
 const Reminder= require('../models/Reminder');
 const User= require('../models/User');
@@ -115,8 +116,9 @@ module.exports = async()=>{
             
             `, // html body
           });
-        
-          console.log("Message sent: %s", mail.messageId); 
+          if(process.env.NODE_ENV !== "test"){
+              console.log("Message sent: %s", mail.messageId); 
+          }
           }
 
         if(event.user.browserNotification){

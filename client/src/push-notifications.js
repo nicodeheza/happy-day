@@ -49,6 +49,7 @@ function isPushNotificationSupported() {
     return await response.json();
   }
 
+ 
   export {
     isPushNotificationSupported,
     registerServiceWorker,
@@ -56,3 +57,4 @@ function isPushNotificationSupported() {
     createNotificationSubscription,
     postSubscription
   };
+ 
