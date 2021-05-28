@@ -58,11 +58,11 @@ export default function Settings() {
     <div className="card-form">
 
       <div className="label-st">
-        <label htmlFor="emial">Email Notifications</label>
+        <label htmlFor="emialSettings">Email Notifications</label>
         <div className="switch-btn-container">
             <p>on/off</p>
-        <div className="switch-btn"  name="email" onClick={()=>emailNotificationSettings()}>
-            <div className={emailNotification ? "switch-btn-int" : "switch-btn-int eOff"}/>
+        <div className="switch-btn" name="emialSettings" data-testid="emialSettings" onClick={()=>emailNotificationSettings()}>
+            <div className={emailNotification ? "switch-btn-int" : "switch-btn-int eOff"} />
         </div>
         </div>
       </div>

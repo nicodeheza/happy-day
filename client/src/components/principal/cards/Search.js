@@ -30,24 +30,24 @@ export default function Search() {
             <div className="grup">
                 <div className="label">
                     <label htmlFor="from">From</label>
-                    <input className="form-to" type="text" placeholder="mm/dd" pattern="\d{2}/\d{2}" 
+                    <input className="form-to" id="from" type="text" placeholder="mm/dd" pattern="\d{2}/\d{2}" 
                     value={filds.from} onChange={(e)=> setFilds({...filds, from: e.target.value})}/>
                 </div>
                 <div className="label">
                     <label htmlFor="to">To</label>
-                    <input className="form-to" type="text" placeholder="mm/dd" pattern="\d{2}/\d{2}"
+                    <input className="form-to" type="text" id="to" placeholder="mm/dd" pattern="\d{2}/\d{2}"
                     value={filds.to} onChange={(e)=>setFilds({...filds, to: e.target.value})}/>
                 </div>
             </div>
             <div className="label">
-                <label htmlFor="name">Name</label>
-                <input type="text" placeholder="any" value={filds.name} onChange={(e)=>setFilds({...filds, name: e.target.value})} />
+                <label htmlFor="searchName">Name</label>
+                <input type="text" placeholder="any" id="searchName" value={filds.name} onChange={(e)=>setFilds({...filds, name: e.target.value})} />
             </div>
             
             
             <div className="label">
-                <label htmlFor="type">Type</label>
-                    <select name="type" value={filds.type} onChange={(e)=>setFilds({...filds, type: e.target.value})} required>
+                <label htmlFor="searchType">Type</label>
+                    <select name="searchType" id="searchType" value={filds.type} onChange={(e)=>setFilds({...filds, type: e.target.value})} required>
                         <option value="any">Any</option>
                         <option value="birthday">Birthday</option>
                         <option value="anniversary">Anniversary</option>

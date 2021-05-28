@@ -173,8 +173,8 @@ export default function Edit() {
 
         <div className="grup">
           <div className="label">
-            <label htmlFor="event">Event</label>
-            <select name="event" onChange={(e)=>setFormFields({...formFields, event:e.target.value})} 
+            <label htmlFor="editEvent">Event</label>
+            <select name="editEvent" id="editEvent" onChange={(e)=>setFormFields({...formFields, event:e.target.value})} 
             value={formFields.event} required>
               <option value="birthday">Birthday</option>
               <option value="anniversary">Anniversary</option>
@@ -183,8 +183,8 @@ export default function Edit() {
 
           {formFields.event === 'anniversary' ?
           ( <div className="label">
-          <label htmlFor="type">Type</label>
-          <input type="text" name="type"  onChange={(e)=>setFormFields({...formFields, type: e.target.value})}
+          <label htmlFor="editType">Type</label>
+          <input type="text" name="editType" id="editType"  onChange={(e)=>setFormFields({...formFields, type: e.target.value})}
           value={formFields.type}/>
         </div>) : (null)}
          
@@ -193,14 +193,14 @@ export default function Edit() {
 
         <div className="grup" >
             <div className="label">
-              <label htmlFor="day">Day</label>
-              <input className="day" type="number" name="day" min="1" max="31" step="1" 
+              <label htmlFor="editDay">Day</label>
+              <input className="day" type="number" name="editDay" id="editDay" min="1" max="31" step="1" 
               onChange={(e)=>setFormFields({...formFields, day:e.target.value})} 
               value={formFields.day} required/>
             </div>
             <div className="label">
-              <label htmlFor="month">Month</label>
-              <select name="month" onChange={(e)=>setFormFields({...formFields, month:e.target.value})} 
+              <label htmlFor="editMonth">Month</label>
+              <select name="editMonth" id="editMonth" onChange={(e)=>setFormFields({...formFields, month:e.target.value})} 
               value={formFields.month} required>
                 {abrMonths.map((m, i) => {
                   return (
@@ -212,30 +212,30 @@ export default function Edit() {
               </select>
             </div>
             <div className="label">
-              <label htmlFor="year">Year</label>
-              <input className="year" type="number"name="year" placeholder="any" max="9999"
+              <label htmlFor="editYear">Year</label>
+              <input className="year" type="number"name="editYear" id="editYear" placeholder="any" max="9999"
               onChange={e=>setFormFields({...formFields, year:e.target.value})}
               value={formFields.year}/>
             </div>
         </div>
 
         <div className="label">
-            <label htmlFor="name">Name</label>
-            <input type="text" name="name" onChange={e=>setFormFields({...formFields, personName: e.target.value})} 
+            <label htmlFor="editName">Name</label>
+            <input type="text" name="editName" id="editName" onChange={e=>setFormFields({...formFields, personName: e.target.value})} 
             value={formFields.personName} required/>
         </div>
 
         <div className="grup">
             <div className="grup">
-            <label htmlFor="time-before">Add Reminders</label>
-            <select name="time-before" onChange={e=>setReminder({...reminder, timeBefore:e.target.value})} 
+            <label htmlFor="time-before-edit">Add Reminders</label>
+            <select name="time-before-edit" id="time-before-edit" onChange={e=>setReminder({...reminder, timeBefore:e.target.value})} 
             value={reminder.timeBefore} >
                 <option value="same-day">The Same Day</option>
                 <option value="days-before">Days Before</option>
                 <option value="weeks-before">Weeks Before</option>
             </select>
             {reminder.timeBefore !== "same-day" ?
-            (<input className="a-r-n" type="number" name="num-before" min="1" step="1"
+            (<input className="a-r-n" type="number" name="num-before" min="1" step="1" data-testid="num-before-test"
             onChange={e=>setReminder({...reminder, numBefore: e.target.value})}
             value={reminder.numBefore}/>) : (null)}
             

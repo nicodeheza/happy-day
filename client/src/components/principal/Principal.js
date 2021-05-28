@@ -56,7 +56,7 @@ export default function Principal() {
 
             <div className="tool-card">
 
-            <Card showCard={showCard} setShowCard={setShowCard} edit={edit}/>
+            <Card showCard={showCard} setShowCard={setShowCard} />
         
             <Toolbar setShowCard={setShowCard}/>
             </div>

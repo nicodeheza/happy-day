@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import "./calendar.css"
 import {principalContext} from '../Principal';
 
+
 const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July',
  'August', 'September', 'October', 'November', 'December'];
 
@@ -45,6 +46,7 @@ export default function Calendar({setShowCard, showCard}) {
         }
      },[updateCalendar, setUpdateCalendar]);
 
+     //search
     useEffect(()=>{
         
         //console.log(searchFilters);

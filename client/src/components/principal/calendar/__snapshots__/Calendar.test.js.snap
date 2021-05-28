@@ -1,0 +1,1037 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Calendar/> if have events render events 1`] = `
+<div
+  className="calendar"
+>
+  <div
+    className="month-container"
+    id="month1"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#216b8e",
+        }
+      }
+    >
+      <h2>
+        January
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#216b8e",
+            }
+          }
+        >
+          1
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-1-1-0"
+            onClick={[Function]}
+          >
+            <p>
+              lololo  birthday (31 eyars)
+            </p>
+          </div>
+          <div
+            className="event-container"
+            id="event-1-1-1"
+            onClick={[Function]}
+          >
+            <p>
+              lo  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#216b8e",
+            }
+          }
+        >
+          22
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-1-22-0"
+            onClick={[Function]}
+          >
+            <p>
+              roco  birthday (55 eyars)
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month2"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#27a3a3",
+        }
+      }
+    >
+      <h2>
+        February
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#27a3a3",
+            }
+          }
+        >
+          7
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-2-7-0"
+            onClick={[Function]}
+          >
+            <p>
+              bobo  birthday (23 eyars)
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#27a3a3",
+            }
+          }
+        >
+          8
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-2-8-0"
+            onClick={[Function]}
+          >
+            <p>
+              jojo  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month3"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#149e84",
+        }
+      }
+    >
+      <h2>
+        March
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#149e84",
+            }
+          }
+        >
+          7
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-3-7-0"
+            onClick={[Function]}
+          >
+            <p>
+              mar  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#149e84",
+            }
+          }
+        >
+          8
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-3-8-0"
+            onClick={[Function]}
+          >
+            <p>
+              yoyo  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month4"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#00ae4d",
+        }
+      }
+    >
+      <h2>
+        April
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#00ae4d",
+            }
+          }
+        >
+          5
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-4-5-0"
+            onClick={[Function]}
+          >
+            <p>
+              abril  birthday (40 eyars)
+            </p>
+          </div>
+          <div
+            className="event-container"
+            id="event-4-5-1"
+            onClick={[Function]}
+          >
+            <p>
+              test  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#00ae4d",
+            }
+          }
+        >
+          6
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-4-6-0"
+            onClick={[Function]}
+          >
+            <p>
+              juna  birthday (22 eyars)
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month5"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#69d503",
+        }
+      }
+    >
+      <h2>
+        May
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#69d503",
+            }
+          }
+        >
+          6
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-5-6-0"
+            onClick={[Function]}
+          >
+            <p>
+              pepito move anniversary 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#69d503",
+            }
+          }
+        >
+          7
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-5-7-0"
+            onClick={[Function]}
+          >
+            <p>
+              pop  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#69d503",
+            }
+          }
+        >
+          10
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-5-10-0"
+            onClick={[Function]}
+          >
+            <p>
+              prueba  birthday 
+            </p>
+          </div>
+          <div
+            className="event-container"
+            id="event-5-10-1"
+            onClick={[Function]}
+          >
+            <p>
+              test  birthday 
+            </p>
+          </div>
+          <div
+            className="event-container"
+            id="event-5-10-2"
+            onClick={[Function]}
+          >
+            <p>
+              jose  birthday (31 eyars)
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#69d503",
+            }
+          }
+        >
+          11
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-5-11-0"
+            onClick={[Function]}
+          >
+            <p>
+              jhon and eli casamiento  anniversary (41 eyars)
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#69d503",
+            }
+          }
+        >
+          25
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-5-25-0"
+            onClick={[Function]}
+          >
+            <p>
+              may  birthday (12 eyars)
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month7"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#edc01c",
+        }
+      }
+    >
+      <h2>
+        July
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#edc01c",
+            }
+          }
+        >
+          5
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-7-5-0"
+            onClick={[Function]}
+          >
+            <p>
+              juju  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#edc01c",
+            }
+          }
+        >
+          6
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-7-6-0"
+            onClick={[Function]}
+          >
+            <p>
+              juan y ana  casamiento  anniversary (22 eyars)
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#edc01c",
+            }
+          }
+        >
+          25
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-7-25-0"
+            onClick={[Function]}
+          >
+            <p>
+              peter  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month8"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#faa818",
+        }
+      }
+    >
+      <h2>
+        August
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#faa818",
+            }
+          }
+        >
+          8
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-8-8-0"
+            onClick={[Function]}
+          >
+            <p>
+              agus  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#faa818",
+            }
+          }
+        >
+          25
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-8-25-0"
+            onClick={[Function]}
+          >
+            <p>
+              aggg  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month9"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#f19616",
+        }
+      }
+    >
+      <h2>
+        September
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#f19616",
+            }
+          }
+        >
+          15
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-9-15-0"
+            onClick={[Function]}
+          >
+            <p>
+              hugo  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#f19616",
+            }
+          }
+        >
+          17
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-9-17-0"
+            onClick={[Function]}
+          >
+            <p>
+              sep  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#f19616",
+            }
+          }
+        >
+          20
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-9-20-0"
+            onClick={[Function]}
+          >
+            <p>
+              lol  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month10"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#fd6126",
+        }
+      }
+    >
+      <h2>
+        October
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#fd6126",
+            }
+          }
+        >
+          25
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-10-25-0"
+            onClick={[Function]}
+          >
+            <p>
+              jhon doe  birthday (34 eyars)
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#fd6126",
+            }
+          }
+        >
+          30
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-10-30-0"
+            onClick={[Function]}
+          >
+            <p>
+              pepo  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month11"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#9458a9",
+        }
+      }
+    >
+      <h2>
+        November
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#9458a9",
+            }
+          }
+        >
+          5
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-11-5-0"
+            onClick={[Function]}
+          >
+            <p>
+              nono  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#9458a9",
+            }
+          }
+        >
+          22
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-11-22-0"
+            onClick={[Function]}
+          >
+            <p>
+              pepe  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+  <div
+    className="month-container"
+    id="month12"
+  >
+    <div
+      className="month-header"
+      style={
+        Object {
+          "backgroundColor": "#6258a2",
+        }
+      }
+    >
+      <h2>
+        December
+      </h2>
+    </div>
+    <div>
+      <div
+        className="day-constainer"
+      >
+        <h2
+          style={
+            Object {
+              "color": "#6258a2",
+            }
+          }
+        >
+          12
+        </h2>
+        <div
+          className="events-container"
+        >
+          <div
+            className="event-container"
+            id="event-12-12-0"
+            onClick={[Function]}
+          >
+            <p>
+              tato  birthday 
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr
+        className="divition"
+      />
+    </div>
+  </div>
+</div>
+`;

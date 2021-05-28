@@ -10,6 +10,7 @@ const Reminder = require('../models/Reminder');
 const mongoose= require('mongoose');
 
 
+
 router.get('/', checkAuthenticated, (req,res)=>{
     res.json({auth:true});
 });
@@ -131,7 +132,9 @@ router.get('/events',checkAuthenticated, async (req,res)=>{
             }
 
         });
+
         res.json(calendar);
+
 
     } catch (error) {
         if(error) console.log(error);
