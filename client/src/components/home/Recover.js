@@ -7,7 +7,7 @@ export default function Recover({setShowRecover}) {
     const handelSubmit=(e)=>{
         e.preventDefault();
         setMessage("Loading...");
-        console.log(email);
+        //console.log(email);
         fetch('http://localhost:4000/recover',{
             method:'POST',
             body: JSON.stringify({email}),

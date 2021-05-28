@@ -157,7 +157,7 @@ export default function Edit() {
   })
   .then(res=> res.json())
   .then(data=>{
-    console.log("fetch edit.js delete");
+   // console.log("fetch edit.js delete");
     setMessage(data.message);
     setUpdateCalendar(true);
     
