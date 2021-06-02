@@ -6,10 +6,12 @@ import {
   askUserPermission,
   createNotificationSubscription,
   postSubscription
-} from '../../../push-notifications'
+} from '../../../push-notifications';
+import {authContext} from '../../../App';
 
 export default function Settings() {
 
+  const setAuth= useContext(authContext);
   const{emailNotification, setEmailNotification, setMessage} = useContext(principalContext);
 
   const emailNotificationSettings=()=>{
@@ -22,6 +24,9 @@ export default function Settings() {
     })
     .then(res=> res.json())
     .then(data=>{
+      if(data.auth === false){
+        setAuth(data.auth);
+      }
       //console.log(data);
     })
     .catch(err => console.log(err));
@@ -37,8 +42,12 @@ export default function Settings() {
         if(permission === 'granted'){
           const subscription= await createNotificationSubscription();
           const res= await postSubscription(subscription);
-          setMessage('Notifications Activated');
-          console.log(res)
+          if(res.auth === false){
+            setAuth(res.auth);
+          }else{
+            setMessage('Notifications Activated');
+            console.log(res);
+          }
         }else{
           setMessage("Something went wrong, check your browser's notification settings and try again");
         }

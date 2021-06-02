@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import "./calendar.css"
 import {principalContext} from '../Principal';
+import{authContext} from '../../../App';
 
 
 const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -12,6 +13,7 @@ const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July'
 
 
 export default function Calendar({setShowCard, showCard}) {
+    const setAuth= useContext(authContext);
     const[calendarData , setCalendarData]= useState({});
     const {updateCalendar, setUpdateCalendar, setEdit, searchFilters}= useContext(principalContext);
     const [searchResults, setSearchResults]= useState({});
@@ -26,10 +28,13 @@ export default function Calendar({setShowCard, showCard}) {
         })
         .then(res=> res.json())
         .then(data=>{
-    
-          //console.log("fetch calendar.js ");
-          setCalendarData(data);
-          setLoadingData(false);
+            if(data.auth === false){
+                setAuth(data.auth);
+            }else{
+                //console.log("fetch calendar.js ");
+                setCalendarData(data);
+                setLoadingData(false);
+            }
           
         })
         .catch(err => console.log(err));
@@ -37,6 +42,7 @@ export default function Calendar({setShowCard, showCard}) {
 
     useEffect(()=>{
        fetchData();
+       // eslint-disable-next-line
     },[]);
 
     useEffect(()=>{
@@ -44,6 +50,7 @@ export default function Calendar({setShowCard, showCard}) {
         fetchData();
         setUpdateCalendar(false);
         }
+        // eslint-disable-next-line
      },[updateCalendar, setUpdateCalendar]);
 
      //search

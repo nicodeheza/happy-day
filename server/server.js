@@ -19,11 +19,11 @@ const db= mongoose.connection;
 db.on('error', err=> console.error(err));
 db.once('open', ()=>console.log("connected to Mongoose"));
 
-
 app.use(cors({
-    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    origin: 'http://localhost:3000', // <-- location of the react app were connecting to
     credentials: true,
   }));
+//app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(
@@ -55,7 +55,7 @@ if(process.env.NODE_ENV === "production"){
 
 
 const PORT= process.env.PORT || 4000;
-app.listen(PORT,()=>console.log(`Server runing on port ${PORT}`));
+app.listen(PORT,()=>console.log(`Server running on port ${PORT}`));
 
 if(process.env.NODE_ENV === "test"){
   module.exports= app;

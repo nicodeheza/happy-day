@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import './cards.css';
 import{principalContext} from '../Principal';
+import {authContext} from '../../../App';
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 export default function Edit() {
 
+  const setAuth= useContext(authContext);
   const {setUpdateCalendar, edit, showCard, setShowCard, setMessage}= useContext(principalContext);
 
   const [formFields, setFormFields]= useState({
@@ -125,11 +127,15 @@ export default function Edit() {
             })
             .then(res=> res.json())
             .then(data=>{
-                //console.log("fetch edit.js edit");
+              if(data.auth === false){
+                setAuth(data.auth);
+              }else{
                 setMessage(data.message);
                 if(data.message ==="Event Edited"){
                   setUpdateCalendar(true);
                 }
+              }
+                //console.log("fetch edit.js edit");
               })
             .catch(err => console.log(err));
 
@@ -157,9 +163,13 @@ export default function Edit() {
   })
   .then(res=> res.json())
   .then(data=>{
+    if(data.auth === false){
+      setAuth(data.auth);
+    }else{
+      setMessage(data.message);
+      setUpdateCalendar(true);
+    }
    // console.log("fetch edit.js delete");
-    setMessage(data.message);
-    setUpdateCalendar(true);
     
     })
   .catch(err => console.log(err));  
