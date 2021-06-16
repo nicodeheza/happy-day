@@ -7,10 +7,14 @@
         "confim",
         "emial",
         "reminders",
+        "resave",
         "singup",
+        "testid",
         "yelow"
     ],
     "cSpell.ignoreWords": [
+        "btns",
+        "grup",
         "middlewares"
     ]
 }

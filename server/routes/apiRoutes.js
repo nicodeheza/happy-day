@@ -54,9 +54,8 @@ router.post('/singup',async (req,res)=>{
 });
 
 router.post('/login', passport.authenticate('local'), (req, res)=>{
-
-    res.json({auth:true});
-
+    //console.log('log in');
+    res.json({auth: true});
 });
 
 router.get('/logout', checkAuthenticated, (req,res)=>{
@@ -261,7 +260,7 @@ router.put('/emailNotification', checkAuthenticated, async (req,res)=>{
 router.post('/noti-sub', checkAuthenticated, async (req, res)=>{
     try {
         const user= await User.findById(req.user.id);
-        user.browserNotification= req.body;
+        user.browserNotification= req.body.token;
         await user.save();
         res.json({message: 'subscription added'});
     } catch (error) {
@@ -269,6 +268,17 @@ router.post('/noti-sub', checkAuthenticated, async (req, res)=>{
     }
 });
 
+router.post('/expoToken', checkAuthenticated, async(req, res)=>{
+    try {
+        const user= await User.findById(req.user.id);
+        user.expoPushToken= req.body.token;
+        await user.save();
+        res.json({message: 'token added'});
+        
+    } catch (err) {
+        if(err)console.log(err);
+    }
+});
 
 module.exports= router;
 

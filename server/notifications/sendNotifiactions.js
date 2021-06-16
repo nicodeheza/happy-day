@@ -5,6 +5,9 @@ const Reminder= require('../models/Reminder');
 const User= require('../models/User');
 const Event= require('../models/Event');
 const webpush= require('./webpush');
+const {Expo}= require('expo-server-sdk');
+
+const expo = new Expo();
 
 
 function capitalize(str){
@@ -22,8 +25,9 @@ function capitalize(str){
 
 
 module.exports = async()=>{
-    try {
+    let expoMessages=[];
 
+    try {
         const toDay= new Date();
         const day=  toDay.getDate();
         const month= toDay.getMonth()+1;
@@ -120,7 +124,7 @@ module.exports = async()=>{
               console.log("Message sent: %s", mail.messageId); 
           }
           }
-
+          // browser notifications 
         if(event.user.browserNotification){
             const payload=JSON.stringify({
                 title:subject,
@@ -132,12 +136,79 @@ ${eventData}`
             console.log("notification sended");
         }
 
+        // expo push
+        if(event.user.expoPushToken){
+            const token= event.user.expoPushToken;
+            if(!Expo.isExpoPushToken(token)){
+                console.log(`Push token ${token} is not a valid Expo push token`);
+            }else{
+                expoMessages.push({
+                    to: token,
+                    sound: 'default',
+                    title: subject,
+                    body:`${body}
+                    ${eventData}`
+                });
+            }
+        }
  }
-        
 
     } catch (error) {
         if(error)console.log(error);
     }
+
+let chunks = expo.chunkPushNotifications(expoMessages);
+let tickets = [];
+(async () => {
+  for (let chunk of chunks) {
+    try {
+      let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+      console.log(ticketChunk);
+      tickets.push(...ticketChunk);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+})();
+
+let receiptIds = [];
+for (let ticket of tickets) {
+  if (ticket.id) {
+    receiptIds.push(ticket.id);
+  }
+}
+ 
+let receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
+(async () => {
+  for (let chunk of receiptIdChunks) {
+    try {
+      let receipts = await expo.getPushNotificationReceiptsAsync(chunk);
+      console.log(receipts);
+      for (let receiptId in receipts) {
+        let { status, message, details } = receipts[receiptId];
+        if (status === 'ok') {
+            console.log(status);
+          continue;
+        } else if (status === 'error') {
+          console.error(
+            `There was an error sending a notification: ${message}`
+          );
+          if (details && details.error) {
+            console.error(`The error code is ${details.error}`);
+            if(details.error === 'DeviceNotRegistered'){
+                let messageArr= message.split('"');
+                const user= await User.findOne({expoPushToken: messageArr[1]});
+                user.expoPushToken='';
+                await user.save();
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+})();
 }
 
 

@@ -168,7 +168,7 @@ export default function Calendar({setShowCard, showCard}) {
         const ageInMs= Date.now() - new Date(date).getTime();
         const ageInYears= Math.floor(ageInMs / (1000*60*60*24*365));
         if(ageInYears > 0){
-            return `(${ageInYears} eyars)`;
+            return `(${ageInYears} years)`;
         }else{
             return '';
         }
