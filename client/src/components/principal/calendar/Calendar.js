@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import "./calendar.css"
 import {principalContext} from '../Principal';
-import{authContext} from '../../../App';
+//import{authContext} from '../../../App';
+import { setAuth } from '../../../redux/actions/authActions';
+import { useDispatch } from 'react-redux';
 
 
 const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -13,7 +15,8 @@ const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July'
 
 
 export default function Calendar({setShowCard, showCard}) {
-    const setAuth= useContext(authContext);
+    //const setAuth= useContext(authContext);
+    const dispatch= useDispatch();
     const[calendarData , setCalendarData]= useState({});
     const {updateCalendar, setUpdateCalendar, setEdit, searchFilters}= useContext(principalContext);
     const [searchResults, setSearchResults]= useState({});
@@ -29,7 +32,8 @@ export default function Calendar({setShowCard, showCard}) {
         .then(res=> res.json())
         .then(data=>{
             if(data.auth === false){
-                setAuth(data.auth);
+                //setAuth(data.auth);
+                dispatch(setAuth(data.auth));
             }else{
                 //console.log("fetch calendar.js ");
                 setCalendarData(data);

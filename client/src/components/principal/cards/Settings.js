@@ -7,11 +7,14 @@ import {
   createNotificationSubscription,
   postSubscription
 } from '../../../push-notifications';
-import {authContext} from '../../../App';
+//import {authContext} from '../../../App';
+import { setAuth } from "../../../redux/actions/authActions";
+import { useDispatch } from "react-redux";
 
 export default function Settings() {
 
-  const setAuth= useContext(authContext);
+  //const setAuth= useContext(authContext);
+  const dispatch= useDispatch();
   const{emailNotification, setEmailNotification, setMessage} = useContext(principalContext);
 
   const emailNotificationSettings=()=>{
@@ -25,7 +28,7 @@ export default function Settings() {
     .then(res=> res.json())
     .then(data=>{
       if(data.auth === false){
-        setAuth(data.auth);
+        dispatch(setAuth(data.auth));
       }
       //console.log(data);
     })
@@ -43,7 +46,7 @@ export default function Settings() {
           const subscription= await createNotificationSubscription();
           const res= await postSubscription(subscription);
           if(res.auth === false){
-            setAuth(res.auth);
+            dispatch(setAuth(res.auth));
           }else{
             setMessage('Notifications Activated');
             console.log(res);

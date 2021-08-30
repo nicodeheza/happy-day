@@ -1,33 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Home from './components/home/Home';
 import Loading from './components/loading/Loading';
 import Principal from './components/principal/Principal';
-
-export const authContext= React.createContext();
+import {Provider, useSelector, useDispatch} from 'react-redux';
+import generateStore from './redux/store';
+import { getAuth } from './redux/actions/authActions';
 
 function App() {
-  const [auth, setAuth]= useState(undefined);
+  const store= generateStore();
+  return (
+    <Provider store={store}>
+      <Main /> 
+    </Provider>
+  );
+}
+
+export default App;
+
+function Main() {
+ // const [auth, setAuth]= useState(undefined);
+  const auth= useSelector(store=> store.auth.authData);
+
+  const dispatch= useDispatch();
 
   //check auth in the server
   useEffect(()=>{
     if(auth === undefined){
-    fetch('http://localhost:4000/api',{
-      method:'GET',
-      headers:{"Content-type": "application/json; charset=UTF-8"},
-      credentials: 'include'
-  })
-  .then(res=> res.json())
-  .then(data=>{
-    setAuth(data.auth);
-    //console.log("fetch app.js");
-  })
-  .catch(err => console.log(err));
+      dispatch(getAuth());
     }
   });
 
   return (
-    <authContext.Provider value={setAuth}>
-    
+    <>
     {auth === undefined ?
     (<Loading/>) :
     auth ? 
@@ -35,8 +39,6 @@ function App() {
     :
     (<Home/>)
     }  
-    </authContext.Provider>
+    </>
   );
 }
-
-export default App;

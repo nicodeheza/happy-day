@@ -1,16 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from './cards/Card';
 import Header from './header/Header';
 import Toolbar from './toolbar/Toolbar'
 import './principal.css';
 import Calendar from './calendar/Calendar';
-import {authContext} from '../../App';
+//import {authContext} from '../../App';
+import {useDispatch} from 'react-redux';
+import {setAuth} from '../../redux/actions/authActions';
 
 
 export const principalContext= React.createContext();
 
 export default function Principal() {
-    const setAuth= useContext(authContext);
+    //const setAuth= useContext(authContext);
+    const dispatch = useDispatch();
+
     const [showCard, setShowCard]= useState('none');
     const [updateCalendar, setUpdateCalendar]= useState(false);
     const [edit, setEdit]= useState({});
@@ -31,7 +35,7 @@ export default function Principal() {
       .then(res=> res.json())
       .then(data=>{
         if(data.auth === false){
-            setAuth(data.auth);
+            dispatch(setAuth(data.auth));
         }else{
             setEmailNotification(data.mailNotification);
             setFirstFetch(false);

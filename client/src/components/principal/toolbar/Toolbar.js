@@ -1,10 +1,13 @@
-import React,{useContext} from 'react'
-import {authContext} from '../../../App';
+import React from 'react'
+//import {authContext} from '../../../App';
+import { setAuth } from '../../../redux/actions/authActions';
+import { useDispatch } from 'react-redux';
 import './toolbar.css'
 
 export default function Toolbar({setShowCard}) {
 
-    const setAuth= useContext(authContext);
+    //const setAuth= useContext(authContext);
+    const dispatch= useDispatch();
 
     const logOut=()=>{
         fetch('http://localhost:4000/api/logout',{
@@ -14,7 +17,7 @@ export default function Toolbar({setShowCard}) {
         })
         .then(res=> res.json())
         .then(data=>{
-            setAuth(data.auth);
+            dispatch(setAuth(data.auth));
             //console.log("fetch toolbar.js logout");
          })
         .catch(err => console.log(err));

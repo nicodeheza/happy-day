@@ -1,13 +1,17 @@
 import React, { useContext, useState } from "react";
 import './cards.css';
 import{principalContext} from '../Principal';
-import {authContext} from '../../../App';
+//import {authContext} from '../../../App';
+import { setAuth } from "../../../redux/actions/authActions";
+import { useDispatch } from "react-redux";
+
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 export default function Add() {
 
-  const setAuth= useContext(authContext);
+  //const setAuth= useContext(authContext);
+  const dispatch= useDispatch();
   const { setUpdateCalendar, setMessage}= useContext(principalContext);
 
   const [formFields, setFormFields]= useState({
@@ -101,7 +105,8 @@ export default function Add() {
             .then(res=> res.json())
             .then(data=>{
               if(data.auth === false){
-                setAuth(data.auth);
+                //setAuth(data.auth);
+                dispatch(setAuth(data.auth));
               }else{
                 //console.log('fetch add.js')
                 setMessage(data.message);
