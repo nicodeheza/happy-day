@@ -6,19 +6,7 @@ import {Provider, useSelector, useDispatch} from 'react-redux';
 import generateStore from './redux/store';
 import { getAuth } from './redux/actions/authActions';
 
-function App() {
-  const store= generateStore();
-  return (
-    <Provider store={store}>
-      <Main /> 
-    </Provider>
-  );
-}
-
-export default App;
-
 function Main() {
- // const [auth, setAuth]= useState(undefined);
   const auth= useSelector(store=> store.auth.authData);
 
   const dispatch= useDispatch();
@@ -42,3 +30,15 @@ function Main() {
     </>
   );
 }
+
+function App() {
+  const store= generateStore();
+  return (
+    <Provider store={store}>
+      <Main /> 
+    </Provider>
+  );
+}
+
+export default App;
+

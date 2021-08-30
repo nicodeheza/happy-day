@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import './cards.css';
 import{principalContext} from '../Principal';
-//import {authContext} from '../../../App';
 import { setAuth } from "../../../redux/actions/authActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCalendar } from "../../../redux/actions/upadateCalendarActions";
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
@@ -11,7 +11,8 @@ export default function Edit() {
 
   //const setAuth= useContext(authContext);
   const dispatch= useDispatch();
-  const {setUpdateCalendar, edit, showCard, setShowCard, setMessage}= useContext(principalContext);
+  const { showCard, setShowCard, setMessage}= useContext(principalContext);
+  const edit= useSelector(store=> store.edit.event);
 
   const [formFields, setFormFields]= useState({
     event:edit.type,
@@ -136,7 +137,7 @@ export default function Edit() {
               }else{
                 setMessage(data.message);
                 if(data.message ==="Event Edited"){
-                  setUpdateCalendar(true);
+                  dispatch(updateCalendar(true));
                 }
               }
                 //console.log("fetch edit.js edit");
@@ -172,7 +173,7 @@ export default function Edit() {
       dispatch(setAuth(data.auth));
     }else{
       setMessage(data.message);
-      setUpdateCalendar(true);
+      dispatch(updateCalendar(true));
     }
    // console.log("fetch edit.js delete");
     

@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import "./calendar.css"
 import {principalContext} from '../Principal';
-//import{authContext} from '../../../App';
 import { setAuth } from '../../../redux/actions/authActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCalendar } from '../../../redux/actions/upadateCalendarActions';
+import { setEdit } from '../../../redux/actions/editActions';
 
 
 const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -15,14 +16,14 @@ const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July'
 
 
 export default function Calendar({setShowCard, showCard}) {
-    //const setAuth= useContext(authContext);
     const dispatch= useDispatch();
     const[calendarData , setCalendarData]= useState({});
-    const {updateCalendar, setUpdateCalendar, setEdit, searchFilters}= useContext(principalContext);
+    const {searchFilters}= useContext(principalContext);
     const [searchResults, setSearchResults]= useState({});
     const [loadingData, setLoadingData]= useState(true);
+    const update= useSelector(store=> store.updateCalendar.update);
 
-    const fetchData=()=>{
+    const fetchData= useCallback(()=>{
         //setLoadingData(true)
         fetch('http://localhost:4000/api/events',{
             method:'GET',
@@ -32,7 +33,6 @@ export default function Calendar({setShowCard, showCard}) {
         .then(res=> res.json())
         .then(data=>{
             if(data.auth === false){
-                //setAuth(data.auth);
                 dispatch(setAuth(data.auth));
             }else{
                 //console.log("fetch calendar.js ");
@@ -42,20 +42,19 @@ export default function Calendar({setShowCard, showCard}) {
           
         })
         .catch(err => console.log(err));
-    }
+    },[dispatch]);
+
 
     useEffect(()=>{
        fetchData();
-       // eslint-disable-next-line
-    },[]);
+    },[fetchData]);
 
     useEffect(()=>{
-        if(updateCalendar){
+        if(update){
         fetchData();
-        setUpdateCalendar(false);
+        dispatch(updateCalendar(false));
         }
-        // eslint-disable-next-line
-     },[updateCalendar, setUpdateCalendar]);
+     },[update, dispatch, fetchData]);
 
      //search
     useEffect(()=>{
@@ -189,7 +188,7 @@ export default function Calendar({setShowCard, showCard}) {
        lastId= document.getElementById(id);
 
        setShowCard('edit');
-       setEdit(event);
+       dispatch(setEdit(event));
 
     }
     useEffect(()=>{
