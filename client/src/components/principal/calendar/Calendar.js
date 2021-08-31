@@ -1,10 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import "./calendar.css"
-import {principalContext} from '../Principal';
 import { setAuth } from '../../../redux/actions/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCalendar } from '../../../redux/actions/upadateCalendarActions';
 import { setEdit } from '../../../redux/actions/editActions';
+import { showEdit } from '../../../redux/actions/showCardActions';
 
 
 const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -15,13 +15,14 @@ const monthNames=['January', 'February', 'March', 'April', 'May', 'June', 'July'
   let lastId;
 
 
-export default function Calendar({setShowCard, showCard}) {
+export default function Calendar() {
     const dispatch= useDispatch();
     const[calendarData , setCalendarData]= useState({});
-    const {searchFilters}= useContext(principalContext);
+    const searchFilters= useSelector(store=> store.searchFilters.filters);
     const [searchResults, setSearchResults]= useState({});
     const [loadingData, setLoadingData]= useState(true);
     const update= useSelector(store=> store.updateCalendar.update);
+    const showCard= useSelector(store=> store.showCard.card);
 
     const fetchData= useCallback(()=>{
         //setLoadingData(true)
@@ -187,7 +188,7 @@ export default function Calendar({setShowCard, showCard}) {
        ele.style.backgroundColor = "white";
        lastId= document.getElementById(id);
 
-       setShowCard('edit');
+       dispatch(showEdit());
        dispatch(setEdit(event));
 
     }

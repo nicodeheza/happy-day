@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import './cards.css';
-import{principalContext} from '../Principal';
 import { setAuth } from "../../../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCalendar } from "../../../redux/actions/upadateCalendarActions";
+import { showNone } from "../../../redux/actions/showCardActions";
+import { setMessage } from "../../../redux/actions/messageActions";
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
@@ -11,8 +12,8 @@ export default function Edit() {
 
   //const setAuth= useContext(authContext);
   const dispatch= useDispatch();
-  const { showCard, setShowCard, setMessage}= useContext(principalContext);
   const edit= useSelector(store=> store.edit.event);
+  const showCard= useSelector(store=> store.showCard.card);
 
   const [formFields, setFormFields]= useState({
     event:edit.type,
@@ -85,7 +86,7 @@ export default function Edit() {
 
   const submit=(e)=>{
     e.preventDefault();
-     setMessage("");
+     dispatch(setMessage(""));
     let submitForm={
       event:formFields.event,
       type: formFields.event === "birthday"? '' : formFields.type,
@@ -135,7 +136,7 @@ export default function Edit() {
                 //setAuth(data.auth);
                 dispatch(setAuth(data.auth));
               }else{
-                setMessage(data.message);
+                dispatch(setMessage(data.message));
                 if(data.message ==="Event Edited"){
                   dispatch(updateCalendar(true));
                 }
@@ -144,12 +145,12 @@ export default function Edit() {
               })
             .catch(err => console.log(err));
 
-            setShowCard('none');
+            dispatch(showNone());
   }
 
   const deleteEvent=(e)=>{
     e.preventDefault();
-    setMessage("");
+    dispatch(setMessage(""));
     //console.log('delete');
     const eventToDelete={
       eventId: edit._id,
@@ -172,14 +173,15 @@ export default function Edit() {
       //setAuth(data.auth);
       dispatch(setAuth(data.auth));
     }else{
-      setMessage(data.message);
+      dispatch(setMessage(data.message));
       dispatch(updateCalendar(true));
     }
    // console.log("fetch edit.js delete");
     
     })
   .catch(err => console.log(err));  
-  setShowCard('none');
+  
+  dispatch(showNone());
 
   } 
 

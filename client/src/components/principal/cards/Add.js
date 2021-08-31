@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import './cards.css';
-import{principalContext} from '../Principal';
 import { setAuth } from "../../../redux/actions/authActions";
 import { useDispatch } from "react-redux";
 import { updateCalendar } from "../../../redux/actions/upadateCalendarActions";
+import { setMessage } from "../../../redux/actions/messageActions";
 
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -11,7 +11,6 @@ const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct",
 export default function Add() {
 
   const dispatch= useDispatch();
-  const { setMessage}= useContext(principalContext);
 
   const [formFields, setFormFields]= useState({
     event:'birthday',
@@ -66,7 +65,7 @@ export default function Add() {
 
   const submit=(e)=>{
     e.preventDefault();
-    setMessage("");
+    dispatch(setMessage(""));
     let submitForm={
       event:formFields.event,
       type: formFields.type,
@@ -108,7 +107,7 @@ export default function Add() {
                 dispatch(setAuth(data.auth));
               }else{
                 //console.log('fetch add.js')
-                setMessage(data.message);
+                dispatch(setMessage(data.message));
                 dispatch(updateCalendar(true));
               }
               })

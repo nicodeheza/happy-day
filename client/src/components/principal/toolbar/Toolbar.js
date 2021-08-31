@@ -3,8 +3,9 @@ import React from 'react'
 import { setAuth } from '../../../redux/actions/authActions';
 import { useDispatch } from 'react-redux';
 import './toolbar.css'
+import { showAdd, showHelp, showSearch, showSettings } from '../../../redux/actions/showCardActions';
 
-export default function Toolbar({setShowCard}) {
+export default function Toolbar() {
 
     //const setAuth= useContext(authContext);
     const dispatch= useDispatch();
@@ -25,17 +26,17 @@ export default function Toolbar({setShowCard}) {
 
     return (
         <footer className="toolbar">
-            <button className="toolbar-btn" onClick={()=>setShowCard('search')}>
+            <button className="toolbar-btn" onClick={()=> dispatch(showSearch())}>
             <img src='img/search.svg' alt="search icon" />
             </button>
-            <button className="toolbar-btn" onClick={()=>setShowCard('add')}>
+            <button className="toolbar-btn" onClick={()=>dispatch(showAdd())}>
             <img src='img/add.svg' alt="add icon" />
             </button>
-            <button className="toolbar-btn" onClick={()=>setShowCard('settings')}>
+            <button className="toolbar-btn" onClick={()=>dispatch(showSettings())}>
             <img src='img/settings.svg' alt="settings icon" />
             </button>
             <button className="toolbar-btn">
-            <img src='img/help.svg' alt="help icon" onClick={()=>setShowCard('help')}/>
+            <img src='img/help.svg' alt="help icon" onClick={()=>dispatch(showHelp())}/>
             </button>
             <button className="toolbar-btn" onClick={()=>logOut()}>
             <img src='img/logout.svg' alt="logout icon" />
