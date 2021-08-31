@@ -249,7 +249,7 @@ router.put('/emailNotification', checkAuthenticated, async (req,res)=>{
     try {
         const user= await User.findById(req.user.id);
         user.mailNotification= ! user.mailNotification;
-        const UpdateUser= await user.save()
+        const UpdateUser= await user.save();
         res.json({mailNotification: UpdateUser.mailNotification});
     } catch (error) {
         if(error)console.log(error);
