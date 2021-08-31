@@ -1,5 +1,4 @@
 import React from 'react'
-//import {authContext} from '../../../App';
 import { setAuth } from '../../../redux/actions/authActions';
 import { useDispatch } from 'react-redux';
 import './toolbar.css'

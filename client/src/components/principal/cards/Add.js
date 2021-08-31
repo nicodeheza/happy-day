@@ -103,7 +103,6 @@ export default function Add() {
             .then(res=> res.json())
             .then(data=>{
               if(data.auth === false){
-                //setAuth(data.auth);
                 dispatch(setAuth(data.auth));
               }else{
                 //console.log('fetch add.js')

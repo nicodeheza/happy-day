@@ -10,7 +10,6 @@ const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct",
 
 export default function Edit() {
 
-  //const setAuth= useContext(authContext);
   const dispatch= useDispatch();
   const edit= useSelector(store=> store.edit.event);
   const showCard= useSelector(store=> store.showCard.card);
@@ -170,7 +169,6 @@ export default function Edit() {
   .then(res=> res.json())
   .then(data=>{
     if(data.auth === false){
-      //setAuth(data.auth);
       dispatch(setAuth(data.auth));
     }else{
       dispatch(setMessage(data.message));
