@@ -3,60 +3,60 @@ import {fireEvent, render, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import renderer,{act} from 'react-test-renderer';
 import Calendar from './Calendar';
-import {principalContext} from '../Principal';
 import data from './data';
+import {Provider} from 'react-redux';
+import generateStore from '../../../redux/store';
+import { UPDATE_CALENDAR } from '../../../redux/const/udateCalendarConst';
+import { SET_SEARCH_FILTERS } from '../../../redux/const/searchfiltersConst';
+import { SHOW_NONE } from '../../../redux/const/showCardConst';
 
 
 describe("<Calendar/>",()=>{
     global.fetch= jest.fn();
-    const setShowCard= jest.fn();
-    const setUpdateCalendar= jest.fn();
-    const setEdit= jest.fn();
-    beforeEach(()=>{
+    const store= generateStore();
+
+    beforeEach( ()=>{
         fetch.mockClear();
-        setShowCard.mockClear();
-        setUpdateCalendar.mockClear();
-        setEdit.mockClear();
+        store.dispatch({type: UPDATE_CALENDAR, payload: false});
+        store.dispatch({type:SET_SEARCH_FILTERS, payload: {}});
+        store.dispatch({type: SHOW_NONE, payload: 'none'});
+
     });
 
     it("if not events render message", async()=>{
         fetch.mockImplementation(()=>{
             return Promise.resolve({json: () => Promise.resolve({})});
         });
+
         const calendar= render(
-            <principalContext.Provider value={{
-                updateCalendar: false,
-                setUpdateCalendar,
-                setEdit,
-                searchFilters: {}
-            }}>
-                <Calendar setShowCard={setShowCard} showCard={'none'}/>
-            </principalContext.Provider>
+            <Provider store={store} >
+                <Calendar/>
+            </Provider>
         );
 
         const message= await waitFor(()=>calendar.findByText("You don't have any event")); 
         expect(message).toBeInTheDocument();
     });
+    
     it("if have events render events",async()=>{
         fetch.mockImplementation(()=>{
             return Promise.resolve({json: () => Promise.resolve(data)});
         });
-        let component
-        await act(async()=>{
-        component= renderer
-        .create(   <principalContext.Provider value={{
-            updateCalendar: false,
-            setUpdateCalendar,
-            setEdit,
-            searchFilters: {}
-        }}>
-            <Calendar setShowCard={setShowCard} showCard={'none'}/>
-        </principalContext.Provider>);
+        let component;
 
+        await act(async()=>{
+            component=  renderer
+            .create(   
+            <Provider store={store} >
+                <Calendar />
+            </Provider>
+            );
         });
         
         const tree= component.toJSON();
         expect(tree).toMatchSnapshot();
+
+        component.unmount();
 
     });
 
@@ -65,45 +65,39 @@ describe("<Calendar/>",()=>{
         fetch.mockImplementation(()=>{
             return Promise.resolve({json: () => Promise.resolve(data)});
         });
+
         const calendar= render(
-            <principalContext.Provider value={{
-                updateCalendar: false,
-                setUpdateCalendar,
-                setEdit,
-                searchFilters: {}
-            }}>
-                <Calendar setShowCard={setShowCard} showCard={'none'}/>
-            </principalContext.Provider>
+            <Provider store={store}>
+                <Calendar/>
+            </Provider>
         );
        
         const event= await calendar.findByText(new RegExp('lololo'));
         fireEvent.click(event.parentNode);
 
-        expect(event.parentNode).toHaveStyle('background-color: white')
+        expect(event.parentNode).toHaveStyle('background-color: white');
 
-        expect(setEdit).toBeCalledTimes(1);
-        expect(setEdit).toBeCalledWith(data[1][1][0]);
-        expect(setShowCard).toBeCalledWith('edit');
+        const edit= store.getState().edit.event;
+        const showCard= store.getState().showCard.card;
+        expect(edit).toBe(data[1][1][0]);
+        expect(showCard).toBe('edit');
 
     });
     it("search by name",async()=>{
         fetch.mockImplementation(()=>{
             return Promise.resolve({json: () => Promise.resolve(data)});
         });
+        store.dispatch({type:SET_SEARCH_FILTERS, payload:{
+            from:'',
+             to:'',
+            name: 'abril',
+            type: 'any'
+        }});
+
         const calendar= render(
-            <principalContext.Provider value={{
-                updateCalendar: false,
-                setUpdateCalendar,
-                setEdit,
-                searchFilters: {
-                    from:'',
-                    to:'',
-                    name: 'abril',
-                    type: 'any'
-                }
-            }}>
-                <Calendar setShowCard={setShowCard} showCard={'none'}/>
-            </principalContext.Provider>
+            <Provider store={store}>
+                <Calendar/>
+            </Provider>
         );
 
         const targetEvent= await calendar.findByText(new RegExp('abril'));
@@ -116,20 +110,18 @@ describe("<Calendar/>",()=>{
         fetch.mockImplementation(()=>{
             return Promise.resolve({json: () => Promise.resolve(data)});
         });
+
+        store.dispatch({type:SET_SEARCH_FILTERS, payload:{
+            from:'05/07',
+            to:'10/25',
+            name: '',
+            type: 'any'
+        }});
+
         const calendar= render(
-            <principalContext.Provider value={{
-                updateCalendar: false,
-                setUpdateCalendar,
-                setEdit,
-                searchFilters: {
-                    from:'05/07',
-                    to:'10/25',
-                    name: '',
-                    type: 'any'
-                }
-            }}>
-                <Calendar setShowCard={setShowCard} showCard={'none'}/>
-            </principalContext.Provider>
+            <Provider store={store}>
+                <Calendar />
+            </Provider>
         );
 
 
@@ -160,20 +152,17 @@ describe("<Calendar/>",()=>{
         fetch.mockImplementation(()=>{
             return Promise.resolve({json: () => Promise.resolve(data)});
         });
+        store.dispatch({type:SET_SEARCH_FILTERS, payload:{
+            from:'',
+            to:'',
+            name: '',
+            type: 'anniversary'
+        }});
+    
         const calendar= render(
-            <principalContext.Provider value={{
-                updateCalendar: false,
-                setUpdateCalendar,
-                setEdit,
-                searchFilters: {
-                    from:'',
-                    to:'',
-                    name: '',
-                    type: 'anniversary'
-                }
-            }}>
-                <Calendar setShowCard={setShowCard} showCard={'none'}/>
-            </principalContext.Provider>
+            <Provider store={store}>
+                <Calendar />
+            </Provider>
         );
 
         await calendar.findAllByText(new RegExp('anniversary', 'i'));
