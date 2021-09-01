@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import {principalContext} from '../Principal';
+import React from "react";
 import {
   isPushNotificationSupported,
   registerServiceWorker,
@@ -7,15 +6,19 @@ import {
   createNotificationSubscription,
   postSubscription
 } from '../../../push-notifications';
-import {authContext} from '../../../App';
+import { setAuth } from "../../../redux/actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
+import { setMessage } from "../../../redux/actions/messageActions";
+import { toggleEmailNotification } from "../../../redux/actions/emialNotificationActions";
 
 export default function Settings() {
 
-  const setAuth= useContext(authContext);
-  const{emailNotification, setEmailNotification, setMessage} = useContext(principalContext);
+  const dispatch= useDispatch();
+  const emailNotification= useSelector(store=> store.emailNotification.activate);
 
   const emailNotificationSettings=()=>{
-    setEmailNotification(prev=> !prev);
+
+    dispatch(toggleEmailNotification());
 
     fetch('http://localhost:4000/api/emailNotification',{
         method:'PUT',
@@ -25,7 +28,7 @@ export default function Settings() {
     .then(res=> res.json())
     .then(data=>{
       if(data.auth === false){
-        setAuth(data.auth);
+        dispatch(setAuth(data.auth));
       }
       //console.log(data);
     })
@@ -43,17 +46,17 @@ export default function Settings() {
           const subscription= await createNotificationSubscription();
           const res= await postSubscription(subscription);
           if(res.auth === false){
-            setAuth(res.auth);
+            dispatch(setAuth(res.auth));
           }else{
-            setMessage('Notifications Activated');
+            dispatch(setMessage('Notifications Activated'));
             console.log(res);
           }
         }else{
-          setMessage("Something went wrong, check your browser's notification settings and try again");
+          dispatch(setMessage("Something went wrong, check your browser's notification settings and try again"));
         }
   
       } else{
-        setMessage('Notifications are not supported by your browser');
+        dispatch(setMessage('Notifications are not supported by your browser'))
       } 
       
     } catch (error) {

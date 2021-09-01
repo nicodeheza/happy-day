@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
-import {principalContext} from '../Principal';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { setSearchfilters } from '../../../redux/actions/searchFiltersActions';
+import { showNone } from '../../../redux/actions/showCardActions';
 
 export default function Search() {
-    const {setSearchFilters, setShowCard}= useContext(principalContext);
     const [filds, setFilds]= useState({
         from:'',
         to:'',
@@ -10,12 +11,14 @@ export default function Search() {
         type: 'any'
     });
 
+    const dispatch= useDispatch();
+
     const searchEvents=(e)=>{
         e.preventDefault();
 
-        setSearchFilters(filds);
+        dispatch(setSearchfilters(filds));
  
-        setShowCard('none');
+        dispatch(showNone());
 
         setFilds({
             from:'',

@@ -1,14 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import './cards.css';
-import{principalContext} from '../Principal';
-import {authContext} from '../../../App';
+import { setAuth } from "../../../redux/actions/authActions";
+import { useDispatch } from "react-redux";
+import { updateCalendar } from "../../../redux/actions/upadateCalendarActions";
+import { setMessage } from "../../../redux/actions/messageActions";
+
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 export default function Add() {
 
-  const setAuth= useContext(authContext);
-  const { setUpdateCalendar, setMessage}= useContext(principalContext);
+  const dispatch= useDispatch();
 
   const [formFields, setFormFields]= useState({
     event:'birthday',
@@ -63,7 +65,7 @@ export default function Add() {
 
   const submit=(e)=>{
     e.preventDefault();
-    setMessage("");
+    dispatch(setMessage(""));
     let submitForm={
       event:formFields.event,
       type: formFields.type,
@@ -101,11 +103,11 @@ export default function Add() {
             .then(res=> res.json())
             .then(data=>{
               if(data.auth === false){
-                setAuth(data.auth);
+                dispatch(setAuth(data.auth));
               }else{
                 //console.log('fetch add.js')
-                setMessage(data.message);
-                setUpdateCalendar(true);
+                dispatch(setMessage(data.message));
+                dispatch(updateCalendar(true));
               }
               })
             .catch(err => console.log(err));

@@ -2,41 +2,35 @@ import React from 'react';
 import {fireEvent, render, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Edit from './Edit';
-import{principalContext} from '../Principal';
+import {Provider} from 'react-redux';
+import generateStore from '../../../redux/store';
+import { SET_EDIT } from '../../../redux/const/editConst';
 
 describe("<Edit/>",()=>{
     global.fetch=jest.fn();
-    const setUpdateCalendar= jest.fn();
-    const showCard= jest.fn(); 
-    const setShowCard= jest.fn();
-    const setMessage= jest.fn();
+    const store= generateStore();
+
     beforeEach(()=>{
         fetch.mockClear();
-        setUpdateCalendar.mockClear()
-        showCard.mockClear();
-        setShowCard.mockClear();
-        setMessage.mockClear();
     });
     it("edit event", async ()=>{
         fetch.mockImplementation(()=>{
             return Promise.resolve({json: () => Promise.resolve({message: "Event Edited"})});
         });
+      
+        const editFields={
+            type: 'birthday',
+            AnniversaryType: '',
+            date: new Date('5-4-1999'),
+            personName: 'Test',
+            reminders: [{title: "The Same Day", date: new Date('5-4-1999')}]
+        };
+        store.dispatch({type: SET_EDIT, payload: editFields});
+
         const editComponent= render(
-            <principalContext.Provider value={{
-                edit: {
-                            type: 'birthday',
-                            AnniversaryType: '',
-                            date: new Date('5-4-1999'),
-                            personName: 'Test',
-                            reminders: [{title: "The Same Day", date: new Date('5-4-1999')}]
-                },
-                setMessage,
-                setUpdateCalendar,
-                showCard,
-                setShowCard
-            }}>
+            <Provider store={store}>
                 <Edit/>
-            </principalContext.Provider>
+            </Provider>
         );
 
        expect(editComponent.getByLabelText('Event')).toHaveValue('birthday');
@@ -70,11 +64,12 @@ describe("<Edit/>",()=>{
        "method": "PUT",
        });
        
-      
-       expect(setMessage).toBeCalled();
-       expect(setMessage).toBeCalledWith('Event Edited');
-       expect(setUpdateCalendar).toBeCalledTimes(1);
-       expect(setUpdateCalendar).toBeCalledWith(true);
+
+       const message= store.getState().message.text;
+       expect(message).toBe('Event Edited');
+
+       const updateCalendar= store.getState().updateCalendar.update;
+       expect(updateCalendar).toBe(true);
 
     });
 
@@ -84,22 +79,19 @@ describe("<Edit/>",()=>{
             return Promise.resolve( {json: () => Promise.resolve({message: "Event Edited"})});
         });
 
+        const editFields= {
+            type: 'birthday',
+            AnniversaryType: '',
+            date: new Date('5-4-1999'),
+            personName: 'Test',
+            reminders: [{title: "The Same Day", date: new Date('5-4-1999'), _id:"id"}]
+        };
+        store.dispatch({type: SET_EDIT, payload: editFields});
+
         const editComponent= render(
-            <principalContext.Provider value={{
-                edit: {
-                            type: 'birthday',
-                            AnniversaryType: '',
-                            date: new Date('5-4-1999'),
-                            personName: 'Test',
-                            reminders: [{title: "The Same Day", date: new Date('5-4-1999'), _id:"id"}]
-                },
-                setMessage,
-                setUpdateCalendar,
-                showCard,
-                setShowCard
-            }}>
+            <Provider store={store}>
                 <Edit/>
-            </principalContext.Provider>
+            </ Provider>
         );
 
         fireEvent.click(editComponent.getByAltText('drop'));
@@ -116,27 +108,26 @@ describe("<Edit/>",()=>{
        });
         
     });
+
     it("delete event",async()=>{
         fetch.mockImplementation(()=>{
             return Promise.resolve( {json: () => Promise.resolve({message: "Event deleted"})});
         });
+     
+        const editFields= {
+            type: 'birthday',
+            AnniversaryType: '',
+            date: new Date('5-4-1999'),
+            personName: 'Test',
+            reminders: [{title: "The Same Day", date: new Date('5-4-1999'), _id:"id"}],
+            _id:"eventID"
+        }
+        store.dispatch({type:SET_EDIT, payload: editFields});
+
         const editComponent= render(
-            <principalContext.Provider value={{
-                edit: {
-                            type: 'birthday',
-                            AnniversaryType: '',
-                            date: new Date('5-4-1999'),
-                            personName: 'Test',
-                            reminders: [{title: "The Same Day", date: new Date('5-4-1999'), _id:"id"}],
-                            _id:"eventID"
-                },
-                setMessage,
-                setUpdateCalendar,
-                showCard,
-                setShowCard
-            }}>
+            <Provider store={store} >
                 <Edit/>
-            </principalContext.Provider>
+            </Provider>
         );
         fireEvent.click(editComponent.getByTitle('drop').parentNode);
         await waitFor(()=>fetch) ;
@@ -149,10 +140,12 @@ describe("<Edit/>",()=>{
        "method": "DELETE",
        });
 
-       expect(setMessage).toBeCalled();
-       expect(setMessage).toBeCalledWith('Event deleted');
-       expect(setUpdateCalendar).toBeCalledTimes(1);
-       expect(setUpdateCalendar).toBeCalledWith(true);
+    
+       const message= store.getState().message.text;
+       expect(message).toBe('Event deleted');
+   
+       const updateCalendar= store.getState().updateCalendar.update;
+       expect(updateCalendar).toBe(true);
 
     });
 });

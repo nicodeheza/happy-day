@@ -1,14 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import './cards.css';
-import{principalContext} from '../Principal';
-import {authContext} from '../../../App';
+import { setAuth } from "../../../redux/actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCalendar } from "../../../redux/actions/upadateCalendarActions";
+import { showNone } from "../../../redux/actions/showCardActions";
+import { setMessage } from "../../../redux/actions/messageActions";
 
 const abrMonths = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 export default function Edit() {
 
-  const setAuth= useContext(authContext);
-  const {setUpdateCalendar, edit, showCard, setShowCard, setMessage}= useContext(principalContext);
+  const dispatch= useDispatch();
+  const edit= useSelector(store=> store.edit.event);
+  const showCard= useSelector(store=> store.showCard.card);
 
   const [formFields, setFormFields]= useState({
     event:edit.type,
@@ -81,7 +85,7 @@ export default function Edit() {
 
   const submit=(e)=>{
     e.preventDefault();
-     setMessage("");
+     dispatch(setMessage(""));
     let submitForm={
       event:formFields.event,
       type: formFields.event === "birthday"? '' : formFields.type,
@@ -128,23 +132,24 @@ export default function Edit() {
             .then(res=> res.json())
             .then(data=>{
               if(data.auth === false){
-                setAuth(data.auth);
+                //setAuth(data.auth);
+                dispatch(setAuth(data.auth));
               }else{
-                setMessage(data.message);
+                dispatch(setMessage(data.message));
                 if(data.message ==="Event Edited"){
-                  setUpdateCalendar(true);
+                  dispatch(updateCalendar(true));
                 }
               }
                 //console.log("fetch edit.js edit");
               })
             .catch(err => console.log(err));
 
-            setShowCard('none');
+            dispatch(showNone());
   }
 
   const deleteEvent=(e)=>{
     e.preventDefault();
-    setMessage("");
+    dispatch(setMessage(""));
     //console.log('delete');
     const eventToDelete={
       eventId: edit._id,
@@ -164,16 +169,17 @@ export default function Edit() {
   .then(res=> res.json())
   .then(data=>{
     if(data.auth === false){
-      setAuth(data.auth);
+      dispatch(setAuth(data.auth));
     }else{
-      setMessage(data.message);
-      setUpdateCalendar(true);
+      dispatch(setMessage(data.message));
+      dispatch(updateCalendar(true));
     }
    // console.log("fetch edit.js delete");
     
     })
   .catch(err => console.log(err));  
-  setShowCard('none');
+  
+  dispatch(showNone());
 
   } 
 

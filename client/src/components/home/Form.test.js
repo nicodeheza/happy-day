@@ -2,22 +2,26 @@ import React from 'react';
 import {fireEvent, render, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Form from './Form';
-import {authContext} from '../../App'
+import {Provider, useSelector} from 'react-redux';
+import generateStore from '../../redux/store';
+import {SET_AUTH} from '../../redux/const/authConst';
 
 describe("<Form/>",()=>{
     global.fetch= jest.fn();
-    const setAuth=jest.fn();
 
+
+    const store= generateStore();
+    
     beforeEach(()=>{ 
         fetch.mockClear();
-        setAuth.mockClear();
+        store.dispatch({type: SET_AUTH, payload: undefined});
     });
 
     it("Render default login form",()=>{
         const form= render(
-            <authContext.Provider value={setAuth}>
+            <Provider store={store}>
             <Form/>
-            </authContext.Provider>
+            </Provider>
         );
         form.getByPlaceholderText('Enter your Email');
         form.getByPlaceholderText('Enter your Password');
@@ -33,12 +37,13 @@ describe("<Form/>",()=>{
             password: '1234'
         }
         const form= render(
-            <authContext.Provider value={setAuth}>
+            <Provider store={store}>
             <Form/>
-            </authContext.Provider>
+            </Provider>
         );
         const emailfild= form.getByPlaceholderText('Enter your Email');
         const passwordfild= form.getByPlaceholderText('Enter your Password');
+
 
         fireEvent.change(emailfild,{target: {value: send.email}});
         fireEvent.change(passwordfild, {target:{value: send.password}});
@@ -50,22 +55,23 @@ describe("<Form/>",()=>{
         await form.findByText('Log In');
         const rong= form.queryByText('The email address or password is incorrect.');
         expect(rong).toBeNull();
-        expect(setAuth).toBeCalledTimes(1);
-        expect(setAuth).toBeCalledWith(true);
+        const auth= store.getState().auth.authData;
+        expect(auth).toBe(true);
     });
     it("submit login form and login unsuccessfully",async()=>{
         fetch.mockImplementation(()=>{
-            return Promise.resolve( {status:401});
+            return Promise.resolve( {status: 401});
         });
         const send={
             email: "test@test",
-            password: '1234'
+            password: 'abcde'
         }
         const form= render(
-            <authContext.Provider value={setAuth}>
-            <Form/>
-            </authContext.Provider>
+            <Provider store={store}>
+            <Form/> 
+            </Provider>
         );
+
         const emailfild= form.getByPlaceholderText('Enter your Email');
         const passwordfild= form.getByPlaceholderText('Enter your Password');
 
@@ -76,6 +82,8 @@ describe("<Form/>",()=>{
         await form.findByText('Log In');
         const rong= form.queryByText('The email address or password is incorrect.');
         expect(rong).toBeInTheDocument();
+        const auth= store.getState().auth.authData;
+        expect(auth === undefined || auth === false).toBeTruthy();
       
     });
     it("Sign up with passwords that don't match",()=>{
@@ -87,9 +95,9 @@ describe("<Form/>",()=>{
             confim:'4321'
         };
         const form= render(
-            <authContext.Provider value={setAuth}>
+            <Provider store={store}>
             <Form/>
-            </authContext.Provider>
+            </Provider>
         );
         fireEvent.click(form.getByText('Sing Up'));
         
@@ -118,9 +126,9 @@ describe("<Form/>",()=>{
             confim:'1234'
         };
         const form= render(
-            <authContext.Provider value={setAuth}>
+            <Provider store={store}>
             <Form/>
-            </authContext.Provider>
+            </Provider>
         );
         fireEvent.click(form.getByText('Sing Up'));
         
@@ -142,9 +150,8 @@ describe("<Form/>",()=>{
             password: singupForm.password
         })}));
         expect(form.queryByText("Passwords don't match")).toBeNull();
-
-        expect(setAuth).toBeCalledTimes(1);
-        expect(setAuth).toBeCalledWith(true);
+        const auth= store.getState().auth.authData;
+        expect(auth).toBe(true);
     });
     it("Sign up with message response", async()=>{
         
@@ -160,9 +167,9 @@ describe("<Form/>",()=>{
             confim:'1234'
         };
         const form= render(
-            <authContext.Provider value={setAuth}>
+            <Provider store={store}>
             <Form/>
-            </authContext.Provider>
+            </Provider>
         );
         fireEvent.click(form.getByText('Sing Up'));
         

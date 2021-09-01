@@ -3,16 +3,19 @@ import {fireEvent, render, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Add from './Add';
 import{principalContext} from '../Principal';
+import {Provider} from 'react-redux';
+import generateStore from '../../../redux/store';
 
 describe("<Add/>",()=>{
     global.fetch= jest.fn();
-    const setUpdateCalendar= jest.fn();
-    const setMessage= jest.fn();
+   // const setUpdateCalendar= jest.fn();
+    //const setMessage= jest.fn();
+    const store= generateStore();
 
     beforeEach(()=>{
         fetch.mockClear();
-        setUpdateCalendar.mockClear();
-        setMessage.mockClear();
+       // setUpdateCalendar.mockClear();
+        //setMessage.mockClear();
     });
     it("add birthday with reminder", async()=>{
         fetch.mockImplementation(()=>{
@@ -29,13 +32,19 @@ describe("<Add/>",()=>{
             timeBefore: 'days-before',
             numBefore: 2
         }
+        // const add= render(
+        //     <principalContext.Provider value={{
+        //         setUpdateCalendar,
+        //         setMessage
+        //     }}>
+        //         <Add/>
+        //     </principalContext.Provider>
+        //         );
+
         const add= render(
-            <principalContext.Provider value={{
-                setUpdateCalendar,
-                setMessage
-            }}>
+            <Provider store={store}>
                 <Add/>
-            </principalContext.Provider>
+            </Provider>
                 );
 
        fireEvent.change(add.getByLabelText('Event'), {target:{value: newEvent.event}});
@@ -55,10 +64,14 @@ describe("<Add/>",()=>{
        await waitFor(()=>fetch);
        expect(fetch).toBeCalledTimes(1);
        expect(fetch).toBeCalledWith(expect.any(String), {"body": "{\"event\":\"birthday\",\"type\":\"\",\"date\":\"1999-07-05T03:00:00.000Z\",\"personName\":\"Test\",\"reminders\":[{\"title\":\"The Same Day\",\"date\":\"1999-07-05T03:00:00.000Z\"},{\"title\":\"2 Days Before\",\"date\":\"1999-07-03T03:00:00.000Z\"}]}", "credentials": "include", "headers": {"Content-type": "application/json; charset=UTF-8"}, "method": "POST"});
-       expect(setUpdateCalendar).toBeCalledTimes(1);
-       expect(setUpdateCalendar).toBeCalledWith(true);
-       expect(setMessage).toBeCalledTimes(2);
-       expect(setMessage).toBeCalledWith('event Added');
+       //expect(setUpdateCalendar).toBeCalledTimes(1);
+       //expect(setUpdateCalendar).toBeCalledWith(true);
+       const updateCalendar= store.getState().updateCalendar.update;
+       expect(updateCalendar).toBe(true);
+       //expect(setMessage).toBeCalledTimes(2);
+       //expect(setMessage).toBeCalledWith('event Added');
+       const message= store.getState().message.text;
+       expect(message).toBe('event Added');
 
     });
     it("add Anniversary with reminder",async()=>{
@@ -77,13 +90,19 @@ describe("<Add/>",()=>{
             timeBefore: 'days-before',
             numBefore: 2
         }
+        // const add= render(
+        //     <principalContext.Provider value={{
+        //         setUpdateCalendar,
+        //         setMessage
+        //     }}>
+        //         <Add/>
+        //     </principalContext.Provider>
+        //         );
+
         const add= render(
-            <principalContext.Provider value={{
-                setUpdateCalendar,
-                setMessage
-            }}>
+            <Provider store={store}>
                 <Add/>
-            </principalContext.Provider>
+            </Provider>
                 );
 
        fireEvent.change(add.getByLabelText('Event'), {target:{value: newEvent.event}});
@@ -104,23 +123,33 @@ describe("<Add/>",()=>{
 
        expect(fetch).toBeCalledTimes(1);
        expect(fetch).toBeCalledWith(expect.any(String), {"body": "{\"event\":\"anniversary\",\"type\":\"graduation\",\"date\":\"1999-07-05T03:00:00.000Z\",\"personName\":\"Test\",\"reminders\":[{\"title\":\"The Same Day\",\"date\":\"1999-07-05T03:00:00.000Z\"},{\"title\":\"2 Days Before\",\"date\":\"1999-07-03T03:00:00.000Z\"}]}", "credentials": "include", "headers": {"Content-type": "application/json; charset=UTF-8"}, "method": "POST"});
-       expect(setUpdateCalendar).toBeCalledTimes(1);
-       expect(setUpdateCalendar).toBeCalledWith(true);
-       expect(setMessage).toBeCalledTimes(2);
-       expect(setMessage).toBeCalledWith('event Added');
+       //expect(setUpdateCalendar).toBeCalledTimes(1);
+       //expect(setUpdateCalendar).toBeCalledWith(true);
+       const updateCalendar= store.getState().updateCalendar.update;
+       expect(updateCalendar).toBe(true);
+       //expect(setMessage).toBeCalledTimes(2);
+       //expect(setMessage).toBeCalledWith('event Added');
+       const message= store.getState().message.text;
+       expect(message).toBe('event Added');
     });
+    
     it("add and delete reminders",()=>{
         const newReminder={
             timeBefore: 'days-before',
             numBefore: 2
         }
+        // const add= render(
+        //     <principalContext.Provider value={{
+        //         setUpdateCalendar,
+        //         setMessage
+        //     }}>
+        //         <Add/>
+        //     </principalContext.Provider>
+        //         );
         const add= render(
-            <principalContext.Provider value={{
-                setUpdateCalendar,
-                setMessage
-            }}>
+            <Provider store={store}>
                 <Add/>
-            </principalContext.Provider>
+            </Provider>
                 );
 
        fireEvent.change(add.getByLabelText('Add Reminders'), {target:{value: newReminder.timeBefore}});

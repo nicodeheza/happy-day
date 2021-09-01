@@ -1,23 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from './cards/Card';
 import Header from './header/Header';
 import Toolbar from './toolbar/Toolbar'
 import './principal.css';
 import Calendar from './calendar/Calendar';
-import {authContext} from '../../App';
+import {useDispatch, useSelector} from 'react-redux';
+import {setAuth} from '../../redux/actions/authActions';
+import { setEmailNotification } from '../../redux/actions/emialNotificationActions';
 
 
 export const principalContext= React.createContext();
 
 export default function Principal() {
-    const setAuth= useContext(authContext);
-    const [showCard, setShowCard]= useState('none');
-    const [updateCalendar, setUpdateCalendar]= useState(false);
-    const [edit, setEdit]= useState({});
-    const [message, setMessage]= useState("");
-    const [searchFilters, setSearchFilters]=useState({});
+    
+    const dispatch = useDispatch();
 
-    const [emailNotification, setEmailNotification]= useState(true);
+    const message= useSelector(store=> store.message.text);
     const [firstFetch, setFirstFetch]= useState(true);
   
     //get email notification status
@@ -31,47 +29,34 @@ export default function Principal() {
       .then(res=> res.json())
       .then(data=>{
         if(data.auth === false){
-            setAuth(data.auth);
+            dispatch(setAuth(data.auth));
         }else{
-            setEmailNotification(data.mailNotification);
+            dispatch(setEmailNotification(data.mailNotification));
             setFirstFetch(false);
             //console.log("fetch principal.js email notification");
         }
       })
       .catch(err => console.log(err));
     }
-  // eslint-disable-next-line
-    }, [firstFetch]);
+
+    }, [firstFetch, dispatch]);
 
     return (
-        <principalContext.Provider value={{
-         updateCalendar,
-         setUpdateCalendar,
-         edit, 
-         setEdit,
-         showCard,
-         setShowCard,
-         setMessage,
-         setSearchFilters,
-         searchFilters,
-         emailNotification,
-         setEmailNotification
-         }}>
+   
         <div>
             <Header/>
 
             <div className="tool-card">
 
-            <Card showCard={showCard} setShowCard={setShowCard} />
+            <Card />
         
-            <Toolbar setShowCard={setShowCard}/>
+            <Toolbar/>
             </div>
 
-            <Calendar setShowCard={setShowCard} showCard={showCard} />
+            <Calendar />
 
             <Message message={message} />
         </div>
-        </principalContext.Provider>
     )
 }
 

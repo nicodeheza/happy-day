@@ -42,7 +42,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              lololo  birthday (31 eyars)
+              lololo  birthday (31 years)
             </p>
           </div>
           <div
@@ -82,7 +82,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              roco  birthday (55 eyars)
+              roco  birthday (55 years)
             </p>
           </div>
         </div>
@@ -130,7 +130,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              bobo  birthday (23 eyars)
+              bobo  birthday (23 years)
             </p>
           </div>
         </div>
@@ -288,7 +288,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              abril  birthday (40 eyars)
+              abril  birthday (40 years)
             </p>
           </div>
           <div
@@ -328,7 +328,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              juna  birthday (22 eyars)
+              juna  birthday (22 years)
             </p>
           </div>
         </div>
@@ -456,7 +456,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              jose  birthday (31 eyars)
+              jose  birthday (31 years)
             </p>
           </div>
         </div>
@@ -487,7 +487,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              jhon and eli casamiento  anniversary (41 eyars)
+              jhon and eli casamiento  anniversary (41 years)
             </p>
           </div>
         </div>
@@ -518,7 +518,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              may  birthday (12 eyars)
+              may  birthday (12 years)
             </p>
           </div>
         </div>
@@ -597,7 +597,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              juan y ana  casamiento  anniversary (22 eyars)
+              juan y ana  casamiento  anniversary (23 years)
             </p>
           </div>
         </div>
@@ -865,7 +865,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              jhon doe  birthday (34 eyars)
+              jhon doe  birthday (34 years)
             </p>
           </div>
         </div>

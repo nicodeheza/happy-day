@@ -16,7 +16,7 @@ describe("<App/>",()=>{
        expect(element).toBeInTheDocument();
 
     });
-    test("if auth is true render pricipal", async()=>{
+    test("if auth is true render principal", async()=>{
         fetch.mockImplementation(()=>{
             return Promise.resolve( {json: () => Promise.resolve({auth:true})});
         });

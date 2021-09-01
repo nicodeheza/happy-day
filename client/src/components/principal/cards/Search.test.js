@@ -2,24 +2,20 @@ import React from 'react';
 import {fireEvent, render} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Search from './Search';
-import{principalContext} from '../Principal';
+import {Provider} from 'react-redux';
+import generateStore from '../../../redux/store';
 
 describe("<Serach/>",()=>{
-    const setSearchFilters= jest.fn();
-    const setShowCard= jest.fn();
-    beforeEach(()=>{
-        setSearchFilters.mockClear();
-        setShowCard.mockClear();
-    });
+ 
+    const store= generateStore();
+
 
     it("set search filter",()=>{
+
         const search= render(
-            <principalContext.Provider value={{
-                setSearchFilters,
-                setShowCard
-            }}>
+            <Provider store={store}>
                 <Search/>
-            </principalContext.Provider>
+            </Provider>
         );
         const filds={
             from:'02/20',
@@ -33,9 +29,11 @@ describe("<Serach/>",()=>{
         fireEvent.change(search.getByLabelText('Type'), {target:{value: filds.type}});
         fireEvent.click(search.getByText('Search'));
 
-        expect(setSearchFilters).toBeCalledTimes(1);
-        expect(setSearchFilters).toBeCalledWith(filds);
-        expect(setShowCard).toBeCalledWith('none');
+        const searchFilters= store.getState().searchFilters.filters;
+        expect(searchFilters).toMatchObject(filds);
+
+        const showCard= store.getState().showCard.card;
+        expect(showCard).toBe('none');
 
     });
 });

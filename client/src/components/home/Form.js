@@ -1,8 +1,11 @@
-import React, { useContext, useState } from 'react'
-import {authContext} from '../../App'
+import React, { useState } from 'react'
+//import {authContext} from '../../App'
+import { setAuth } from '../../redux/actions/authActions';
+import { useDispatch } from 'react-redux';
 
 export default function Form() {
-   const setAuth= useContext(authContext);
+   //const setAuth= useContext(authContext);
+   const dispatch= useDispatch();
    const [formType, setFormType]= useState('logIn');
    const[message, setMessage]= useState('');
    const [brithFocus, setBirthFocus]= useState('text');
@@ -49,7 +52,7 @@ export default function Form() {
             .then(data=>{ 
                 
                 if(data){
-                    setAuth(data.auth);
+                    dispatch(setAuth(data.auth));
                 }
                 //console.log("fetch form.js log in");
             })
@@ -81,7 +84,7 @@ export default function Form() {
                 if(data.message){
                     setMessage(data.message);
                 }else{
-                    setAuth(data.auth);
+                    dispatch(setAuth(data.auth));
                 }
                 //console.log("fetch form.js sing up");
             })

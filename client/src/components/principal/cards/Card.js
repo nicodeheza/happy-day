@@ -5,8 +5,12 @@ import Edit from './Edit';
 import Help from './Help';
 import Search from './Search';
 import Settings from './Settings';
+import { useSelector, useDispatch } from 'react-redux';
+import { showNone } from '../../../redux/actions/showCardActions';
 
-export default function Card({showCard, setShowCard}) {
+export default function Card() {
+    const showCard= useSelector(store=> store.showCard.card);
+    const dispatch= useDispatch();
     const [on, setOn]= useState(false);
     const [title, setTitle]= useState('');
     const [form, setForm]= useState(<Add/>);
@@ -78,7 +82,7 @@ export default function Card({showCard, setShowCard}) {
 
           <div className="card-header">
             <h3>{title}</h3>
-            <img src="img/exit.svg" alt="close card"  onClick={()=>setShowCard('none')}/>
+            <img src="img/exit.svg" alt="close card"  onClick={()=>dispatch(showNone())}/>
           </div>
 
             {form}
