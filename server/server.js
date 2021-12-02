@@ -68,6 +68,6 @@ const sendNoti = require("./notifications/sendNotifiactions");
 const schedule = require("node-schedule");
 
 schedule.scheduleJob("00 10 * * *", () => sendNoti());
-sendNoti();
+//sendNoti();
 
 console.log(process.env.NODE_ENV);
