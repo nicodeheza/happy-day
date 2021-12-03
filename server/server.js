@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const path = require("path");
 const cors = require("cors");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -46,14 +45,6 @@ app.use(passport.session());
 
 app.use("/api", apiRoutes);
 app.use("/recover", recoverRoutes);
-
-//serv react app -no olvidar atualizar si hay cambios
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "/reactBuild")));
-	app.get("*", (req, res) => {
-		res.sendFile(path.join(__dirname, "/reactBuild/index.html"));
-	});
-}
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

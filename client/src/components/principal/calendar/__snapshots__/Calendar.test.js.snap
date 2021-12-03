@@ -865,7 +865,7 @@ exports[`<Calendar/> if have events render events 1`] = `
             onClick={[Function]}
           >
             <p>
-              jhon doe  birthday (34 years)
+              jhon doe  birthday (35 years)
             </p>
           </div>
         </div>
