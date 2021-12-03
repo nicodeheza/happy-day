@@ -54,11 +54,12 @@ if (process.env.NODE_ENV === "test") {
 }
 
 //send notifications
+if (process.env.NOTIFICATION === "send") {
+	const sendNoti = require("./notifications/sendNotifiactions");
+	const schedule = require("node-schedule");
 
-const sendNoti = require("./notifications/sendNotifiactions");
-const schedule = require("node-schedule");
-
-schedule.scheduleJob("00 10 * * *", () => sendNoti());
-//sendNoti();
+	schedule.scheduleJob("00 10 * * *", () => sendNoti());
+	//sendNoti();
+}
 
 console.log(process.env.NODE_ENV);

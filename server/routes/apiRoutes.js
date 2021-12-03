@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
@@ -7,10 +8,10 @@ const checkAuthenticated = require("../middlewares/auth");
 const Event = require("../models/Event");
 const Reminder = require("../models/Reminder");
 
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 
 router.get("/", checkAuthenticated, (req, res) => {
-	res.json({auth: true});
+	res.json({auth: true, from: process.env.NOTIFICATION});
 });
 
 router.post("/singup", async (req, res) => {

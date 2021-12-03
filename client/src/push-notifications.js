@@ -1,3 +1,4 @@
+import SERVER_URL from "./serverUrl";
 const pushServerPublicKey =
 	"BKyP2ldVQRindSkOeqb8Sl-oZG3br49DaDCGYPGw4rEu9tFbF1t1rG9rEjRbBfbAPnFhZNHLTw8rZ0XzfyMQkqE";
 
@@ -37,7 +38,7 @@ async function createNotificationSubscription() {
 }
 
 async function postSubscription(subscription) {
-	const response = await fetch("http://localhost:4000/api/noti-sub", {
+	const response = await fetch(`${SERVER_URL}/noti-sub`, {
 		method: "POST",
 		body: JSON.stringify(subscription),
 		headers: {"Content-type": "application/json; charset=UTF-8"},
