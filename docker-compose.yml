@@ -14,18 +14,39 @@ services:
       context: ./server
       args:
         NODE_ENV: production
-    ports:
-      - "4000:4000"
     environment:
+      - NODE_ENV=production
+      # - MONGO_USER=${MONGO_INITDB_ROOT_USERNAME}
+      # - MONGO_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_USER=nicodeheza
+      - MONGO_PASSWORD=nicoL4as
       - PORT=4000
       - NOTIFICATION=dontSend
+    depends_on:
+      - mongo
   node-app-notifications:
     build:
       context: ./server
       args:
         NODE_ENV: production
-    ports:
-      - "4001:4001"
     environment:
+      - NODE_ENV=production
+      # - MONGO_USER=${MONGO_INITDB_ROOT_USERNAME}
+      # - MONGO_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_USER=nicodeheza
+      - MONGO_PASSWORD=nicoL4as
       - PORT=4001
       - NOTIFICATION=send
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    environment:
+      # - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      # - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_ROOT_USERNAME=nicodeheza
+      - MONGO_INITDB_ROOT_PASSWORD=nicoL4as
+    volumes:
+      - mongoDb:/data/db
+volumes:
+  mongoDb:

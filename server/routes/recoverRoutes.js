@@ -14,6 +14,7 @@ router.post("/", async (req, res) => {
 		});
 		const newRecover = await recover.save();
 		console.log(newRecover);
+		//change host and port on production
 		if (newRecover._id) {
 			let email = await transporter.sendMail({
 				from: '"Happy Day" <happy.day.noti@gmail.com>',
@@ -58,7 +59,7 @@ router.post("/", async (req, res) => {
                         <tr>
                             <td>
                                 <h2>Enter this link to reset your password</h2>
-                                <a href="http://localhost:4000/recover/${newRecover._id}">http://localhost:4000/recover/${newRecover._id}</a>
+                                <a href="http://localhost:3000/api/recover/${newRecover._id}">http://localhost:3000/api/recover/${newRecover._id}</a>
                             </td>
                         </tr>
                     </table>

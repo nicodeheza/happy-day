@@ -12,8 +12,16 @@ const recoverRoutes = require("./routes/recoverRoutes");
 
 const mongoose = require("mongoose");
 mongoose.set("useFindAndModify", false);
+// const mongo_uri =
+// 	process.env.NODE_ENV === "test" ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
 const mongo_uri =
-	process.env.NODE_ENV === "test" ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
+	process.env.NODE_ENV === "test"
+		? MONGO_URI_TEST
+		: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongo:27017/happyDay?authSource=admin`;
+
+console.log(process.env.MONGO_USER);
+console.log(process.env.NOTIFICATION);
+
 mongoose.connect(mongo_uri, {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 db.on("error", (err) => console.error(err));
@@ -44,7 +52,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/api", apiRoutes);
-app.use("/recover", recoverRoutes);
+app.use("/api/recover", recoverRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
