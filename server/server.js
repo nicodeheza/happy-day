@@ -16,7 +16,9 @@ mongoose.set("useFindAndModify", false);
 // 	process.env.NODE_ENV === "test" ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
 const mongo_uri =
 	process.env.NODE_ENV === "test"
-		? MONGO_URI_TEST
+		? process.env.MONGO_URI_TEST
+		: process.env.NODE_ENV === "dev"
+		? process.env.MONGO_URI
 		: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongo:27017/happyDay?authSource=admin`;
 
 console.log(process.env.MONGO_USER);
