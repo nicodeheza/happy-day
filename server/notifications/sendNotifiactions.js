@@ -23,6 +23,7 @@ function capitalize(str) {
 }
 
 module.exports = async () => {
+	console.log("send noti");
 	let expoMessages = [];
 
 	try {
