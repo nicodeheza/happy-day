@@ -17,10 +17,12 @@ services:
         NODE_ENV: production
     environment:
       - NODE_ENV=production
-      # - MONGO_USER=${MONGO_INITDB_ROOT_USERNAME}
-      # - MONGO_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-      - MONGO_USER=nicodeheza
-      - MONGO_PASSWORD=nicoL4as
+      - MONGO_USER=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - SECRET=${SECRET}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - PUBLIC_VAPID_KEY=${PUBLIC_VAPID_KEY}
+      - PRIVATE_VAPID_KEY=${PRIVATE_VAPID_KEY}
       - PORT=4000
       - NOTIFICATION=dontSend
     restart: unless-stopped
@@ -33,22 +35,22 @@ services:
         NODE_ENV: production
     environment:
       - NODE_ENV=production
-      # - MONGO_USER=${MONGO_INITDB_ROOT_USERNAME}
-      # - MONGO_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-      - MONGO_USER=nicodeheza
-      - MONGO_PASSWORD=nicoL4as
+      - MONGO_USER=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - SECRET=${SECRET}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - PUBLIC_VAPID_KEY=${PUBLIC_VAPID_KEY}
+      - PRIVATE_VAPID_KEY=${PRIVATE_VAPID_KEY}
       - PORT=4001
-      - NOTIFICATION=send
+      - NOTIFICATION=sends
     restart: unless-stopped
     depends_on:
       - mongo
   mongo:
     image: mongo
     environment:
-      # - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      # - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-      - MONGO_INITDB_ROOT_USERNAME=nicodeheza
-      - MONGO_INITDB_ROOT_PASSWORD=nicoL4as
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     restart: unless-stopped
     volumes:
       - mongoDb:/data/db
