@@ -1,13 +1,41 @@
 version: "3"
 services:
-  nginx:
+  nginx-proxy:
+    image: budry/jwilder-nginx-proxy-arm
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:ro
+      - confd:/etc/nginx/conf.d
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion:stable
+    restart: always
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - confd:/etc/nginx/conf.d
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  nginx-app:
     image: nginx:stable-alpine
     volumes:
       - ./client/build:/usr/share/nginx/html:ro
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    ports:
-      - "80:80"
+    expose:
+      - "80"
     restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=happyday.nicolasdeheza.com
+      - LETSENCRYPT_HOST=happyday.nicolasdeheza.com
+      - LETSENCRYPT_EMAIL=nicolasdeheza@hotmail.com
     depends_on:
       - node-app
   node-app:
@@ -56,3 +84,7 @@ services:
       - mongoDb:/data/db
 volumes:
   mongoDb:
+  certs:
+  html:
+  vhostd:
+  confd:
