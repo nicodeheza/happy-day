@@ -11,9 +11,7 @@ const apiRoutes = require("./routes/apiRoutes");
 const recoverRoutes = require("./routes/recoverRoutes");
 
 const mongoose = require("mongoose");
-mongoose.set("useFindAndModify", false);
-// const mongo_uri =
-// 	process.env.NODE_ENV === "test" ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
+
 const mongo_uri =
 	process.env.NODE_ENV === "test"
 		? process.env.MONGO_URI_TEST

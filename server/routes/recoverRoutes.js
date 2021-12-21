@@ -5,7 +5,9 @@ const Recover = require("../models/Recover");
 const transporter = require("../notifications/nodemailer-transporter");
 const path = require("path");
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
+const {hash} = require("../functions/hashPassword");
+
+const PORT = process.env.PORT || 4000;
 
 router.post("/", async (req, res) => {
 	try {
@@ -59,7 +61,7 @@ router.post("/", async (req, res) => {
                         <tr>
                             <td>
                                 <h2>Enter this link to reset your password</h2>
-                                <a href="http://localhost:3000/api/recover/${newRecover._id}">http://localhost:3000/api/recover/${newRecover._id}</a>
+                                <a href="http://localhost:${PORT}/api/recover/${newRecover._id}">http://localhost:${PORT}/api/recover/${newRecover._id}</a>
                             </td>
                         </tr>
                     </table>
@@ -109,7 +111,8 @@ router.put("/:id", async (req, res) => {
 
 		if (toExpire > 0) {
 			const email = recover.email;
-			const hashedPassword = await bcrypt.hash(req.body.password, 10);
+			const hashedPassword = await hash(req.body.password);
+
 			await User.findOneAndUpdate({email: email}, {password: hashedPassword});
 			await Recover.findByIdAndDelete(req.params.id);
 			res.json({message: "Password updated"});

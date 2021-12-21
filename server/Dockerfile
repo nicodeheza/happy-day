@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:16-alpine
 WORKDIR /APP
 COPY package.json .
 #install dev dependences only in dev mode

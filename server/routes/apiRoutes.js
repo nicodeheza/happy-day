@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const passport = require("passport");
-const bcrypt = require("bcrypt");
+const {hash} = require("../functions/hashPassword");
 const checkAuthenticated = require("../middlewares/auth");
 const Event = require("../models/Event");
 const Reminder = require("../models/Reminder");
@@ -20,7 +20,7 @@ router.post("/singup", async (req, res) => {
 		if (user) {
 			res.json({message: "There is already an account  with this email"});
 		} else {
-			const hashedPassword = await bcrypt.hash(req.body.password, 10);
+			const hashedPassword = await hash(req.body.password);
 
 			const newUser = new User({
 				email: req.body.email,
@@ -56,10 +56,6 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
 router.get("/logout", checkAuthenticated, (req, res) => {
 	req.logOut();
 	res.json({auth: false});
-
-	//la sesion no de borra de la base de datos (se modifica para marcar que estas logeado),
-	// cuando haces login devuelta  no crea otra entrada en db sino que vuelve a modificar la existente para
-	//el usuario
 });
 
 router.post("/add", checkAuthenticated, async (req, res) => {
