@@ -26,12 +26,14 @@ const db = mongoose.connection;
 db.on("error", (err) => console.error(err));
 db.once("open", () => console.log("connected to Mongoose"));
 
-app.use(
-	cors({
-		origin: "http://localhost:3000", // <-- location of the react app were connecting to
-		credentials: true
-	})
-);
+if (process.env.NODE_ENV !== "production") {
+	app.use(
+		cors({
+			origin: "http://localhost:3000", // <-- location of the react app were connecting to
+			credentials: true
+		})
+	);
+}
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
