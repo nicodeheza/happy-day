@@ -8,6 +8,10 @@ const User = require("../models/User");
 const {hash} = require("../functions/hashPassword");
 
 const PORT = process.env.PORT || 4000;
+const HOST =
+	process.env.NODE_ENV === "production"
+		? "http://happyday.nicolasdeheza.com/"
+		: `http://localhost:${PORT}`;
 
 router.post("/", async (req, res) => {
 	try {
@@ -61,7 +65,7 @@ router.post("/", async (req, res) => {
                         <tr>
                             <td>
                                 <h2>Enter this link to reset your password</h2>
-                                <a href="http://localhost:${PORT}/api/recover/${newRecover._id}">http://localhost:${PORT}/api/recover/${newRecover._id}</a>
+                                <a href="${HOST}/api/recover/${newRecover._id}">${HOST}/api/recover/${newRecover._id}</a>
                             </td>
                         </tr>
                     </table>
