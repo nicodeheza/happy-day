@@ -19,7 +19,6 @@ const mongo_uri =
 		? process.env.MONGO_URI
 		: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongo:27017/happyDay?authSource=admin`;
 
-console.log(process.env.MONGO_USER);
 console.log(process.env.NOTIFICATION);
 
 mongoose.connect(mongo_uri, {useNewUrlParser: true, useUnifiedTopology: true});
