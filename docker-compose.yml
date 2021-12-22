@@ -4,7 +4,7 @@ services:
     image: nginx:stable-alpine
     volumes:
       - web-root:/usr/share/nginx/html
-      - ./nginx:/etc/nginx/nginx.conf:ro
+      - ./nginx:/etc/nginx/nginx.conf
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
       - dhparam:/etc/ssl/certs
