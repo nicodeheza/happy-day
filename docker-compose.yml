@@ -7,8 +7,10 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - app-network
     restart: unless-stopped
@@ -84,6 +86,12 @@ volumes:
     driver_opts:
       type: none
       device: /home/ubuntu/happy-day/client/build/
+      o: bind
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ubuntu/happy-day/dhparam/
       o: bind
 networks:
   app-network:
