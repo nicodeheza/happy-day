@@ -10,7 +10,7 @@ const {hash} = require("../functions/hashPassword");
 const PORT = process.env.PORT || 4000;
 const HOST =
 	process.env.NODE_ENV === "production"
-		? "http://happyday.nicolasdeheza.com/"
+		? "https://happyday.nicolasdeheza.com"
 		: `http://localhost:${PORT}`;
 
 router.post("/", async (req, res) => {
