@@ -2,3 +2,4 @@
 /server/node_modules
 /server/.env
 .env
+/dhparam/dhparam-2048.pem
