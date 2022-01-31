@@ -4,7 +4,7 @@ MERN stack app
 
 ## About The Project
 
-Happy Day is a full stack web application where you can add your's friends and family birthdays or important anniversaries and the app will send you an email notifiaction and/or a push notification to your browser (you need to activate this feature in the setting menu). The backend api alsow send notifacation to the movile app version(I will upload the repository in the fiuter).
+Happy Day is a full stack web application where you can add your's friends and family birthdays or important anniversaries and the app will send you an email notifiaction and/or a push notification to your browser (you need to activate this feature in the setting menu). The backend api alsow send notifacation to the [movile app version.](https://github.com/nicodeheza/happy-day-native)
 
 Here you can visit the live demo:<br/>
 [https://happyday.nicolasdeheza.com](https://happyday.nicolasdeheza.com)
