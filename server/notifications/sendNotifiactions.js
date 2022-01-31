@@ -65,7 +65,9 @@ module.exports = async () => {
 			let eDay =
 				eventDate.getDate() < 10 ? `0${eventDate.getDate()}` : eventDate.getDate();
 			let eMonth =
-				eventDate.getMonth() + 1 < 10 ? `0${eventDate.getMonth()}` : eventDate.getMonth();
+				eventDate.getMonth() + 1 < 10
+					? `0${eventDate.getMonth() + 1}`
+					: eventDate.getMonth() + 1;
 			let eYear = eventDate.getFullYear() > 5000 ? "" : eventDate.getFullYear();
 			let eDate = eYear ? `${eMonth}/${eDay}/${eYear}` : `${eMonth}/${eDay}`;
 			let eage = eYear
