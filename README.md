@@ -16,7 +16,7 @@ Also you can use this test user:<br/>
 **Some feature of the app:**
 
 - User login.
-- User singup.
+- User signup.
 - Sessions.
 - Password recovery via email.
 - Add, edit and delete events and reminders.
