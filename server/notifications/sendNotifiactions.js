@@ -162,6 +162,7 @@ ${eventData}`
 					expoMessages.push({
 						to: token,
 						sound: "default",
+						priority: "high",
 						title: subject,
 						body: `${body}
                     ${eventData}`
