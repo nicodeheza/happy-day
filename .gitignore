@@ -3,3 +3,4 @@
 /server/.env
 .env
 /dhparam/dhparam-2048.pem
+/data
